@@ -6,6 +6,13 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <iostream>
+#include <QLinkedList>
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+#include <QDateTime>
+#include <QElapsedTimer>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -92,6 +99,9 @@ private:
     bool trackEnabled       = false;
     void drawCirle(cv::Mat &frame,cv::Point pos, int radious);
     void drawSquare(cv::Mat &frame,cv::Point p1, cv::Point p2);
+    QLinkedList<QString> trackData;
+    unsigned int frameNo = 0;
+    QElapsedTimer timer;
 };
 
 #endif // MAINWINDOW_H

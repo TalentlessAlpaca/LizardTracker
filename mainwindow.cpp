@@ -19,6 +19,7 @@ void MainWindow::on_btnDisplay_clicked()
     cv::namedWindow(inputImage);
     cv::namedWindow(outputImage);
     cv::VideoCapture cap(0);
+    timer.start();
     do{
         cap >> inputFrame;
         if(hsvEnabled){
@@ -46,12 +47,24 @@ void MainWindow::on_btnDisplay_clicked()
                 cv::HoughCircles( outputFrame, circles, CV_HOUGH_GRADIENT, 1, outputFrame.rows/16, hc_p1, hc_p2,0,0);
                 QString num = "Circles: " + QString::number(circles.size());
                 ui->trackedNumber->setPlainText(num);
+
+                if(frameNo==0){
+                    trackData << "Frame;Circles;id;X;Y;R;time\n";
+                }
                 for(size_t i = 0; i < circles.size();i++){
-                    //cv::Point center(cvRound(circles[i][0]),cvRound(circles[i][1]));
                     cv::Point center(std::round(circles[i][0]), std::round(circles[i][1]));
                     int radius = std::round(circles[i][2]);
                     cv::circle(inputFrame, center, radius, cv::Scalar(0, 255, 0), 5);
+                    trackData <<      QString::number(frameNo)    <<   ";";
+                    trackData << QString::number(circles.size())  <<   ";";
+                    trackData <<      QString::number(i)          <<   ";";
+                    trackData << QString::number(circles[i][0])   <<   ",";
+                    trackData << QString::number(circles[i][1])   <<   ";";
+                    trackData <<     QString::number(radius)      <<   ";";
+                    trackData << QString::number(timer.elapsed()) <<   "\n";
                 }
+                //trackData << "End" << "\n";
+                frameNo++;
                 if(circles.size() < 1)
                     drawSquare(inputFrame,cv::Point(-10+inputFrame.rows/2,-10+inputFrame.cols/2),cv::Point(10+inputFrame.rows/2,10+inputFrame.rows/2));
             }
@@ -152,6 +165,19 @@ void MainWindow::on_ErodeDilate_GB_toggled(bool arg1)
 
 void MainWindow::on_Tracking_GB_toggled(bool arg1)
 {
+    if(trackEnabled){
+        // Print Report
+        QDateTime dt = QDateTime::currentDateTime();
+        QString pathFile = "Data_" + dt.toString("h_m_s_d_M_yy")+".csv";
+        qDebug() << pathFile << "\n";
+        QFile file(pathFile);
+        if(file.open(QIODevice::ReadWrite)){
+            QTextStream stream(&file);
+            foreach (QString s, trackData)
+                stream << s;
+        }
+        file.close();
+    }
     trackEnabled = !trackEnabled;
 }
 
