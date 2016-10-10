@@ -8,7 +8,7 @@ ColorFilter::ColorFilter()
     maxVals = cv::Scalar(255,255,255);
 }
 
-ColorFilter::ColorFilter(int minH, int maxH, int minS, int maxS, int minV, int maxV, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec){
+ColorFilter::ColorFilter(QString fName, int minH, int maxH, int minS, int maxS, int minV, int maxV, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec){
     int _eDec = (eDec == 1) ? 1:0;
     int _dDec = (dDec == 1) ? 1:0;
     int erodes[eReps];
@@ -20,9 +20,10 @@ ColorFilter::ColorFilter(int minH, int maxH, int minS, int maxS, int minV, int m
 
     minVals = cv::Scalar(minH,minS,minV);
     maxVals = cv::Scalar(maxH,maxS,maxV);
+    filterName = fName;
 }
 
-ColorFilter::ColorFilter(cv::Scalar _minVals, cv::Scalar _maxVals, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec){
+ColorFilter::ColorFilter(QString fName,cv::Scalar _minVals, cv::Scalar _maxVals, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec){
     int _eDec = (eDec == 1) ? 1:0;
     int _dDec = (dDec == 1) ? 1:0;
     int erodes[eReps];
@@ -34,20 +35,26 @@ ColorFilter::ColorFilter(cv::Scalar _minVals, cv::Scalar _maxVals, int eSize, in
 
     minVals = cv::Scalar(_minVals[0],_minVals[1],_minVals[1]);
     maxVals = cv::Scalar(_maxVals[0],_maxVals[1],_maxVals[1]);
+
+    filterName = fName;
 }
 
-ColorFilter::get_erode(){
+std::vector<int> ColorFilter::get_erode(){
     return erode_size;
 }
 
-ColorFilter::get_dilate(){
+std::vector<int> ColorFilter::get_dilate(){
     return dilate_size;
 }
 
-ColorFilter::get_minVals(){
+cv::Scalar ColorFilter::get_minVals(){
     return minVals;
 }
 
-ColorFilter::get_maxVals(){
+cv::Scalar ColorFilter::get_maxVals(){
     return maxVals;
+}
+
+QString ColorFilter::get_name(){
+    return filterName;
 }

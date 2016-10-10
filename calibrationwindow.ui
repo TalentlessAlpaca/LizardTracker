@@ -72,7 +72,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>130</y>
+     <y>140</y>
      <width>121</width>
      <height>351</height>
     </rect>
@@ -83,7 +83,7 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QSlider" name="MaxVS">
+   <widget class="QSlider" name="maxVS_H">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -102,7 +102,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="minSB">
+   <widget class="QSpinBox" name="minSB_H">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -115,7 +115,7 @@
      <number>255</number>
     </property>
    </widget>
-   <widget class="QSlider" name="minVS">
+   <widget class="QSlider" name="minVS_H">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -131,7 +131,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="maxSB">
+   <widget class="QSpinBox" name="maxSB_H">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -152,7 +152,7 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>130</y>
+     <y>140</y>
      <width>121</width>
      <height>351</height>
     </rect>
@@ -163,7 +163,7 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QSlider" name="MaxVS_2">
+   <widget class="QSlider" name="maxVS_S">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -182,7 +182,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="minSB_2">
+   <widget class="QSpinBox" name="minSB_S">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -195,7 +195,7 @@
      <number>255</number>
     </property>
    </widget>
-   <widget class="QSlider" name="minVS_2">
+   <widget class="QSlider" name="minVS_S">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -211,7 +211,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="maxSB_2">
+   <widget class="QSpinBox" name="maxSB_S">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -228,11 +228,11 @@
     </property>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="HueVals_3">
+  <widget class="QGroupBox" name="ValVals">
    <property name="geometry">
     <rect>
      <x>610</x>
-     <y>130</y>
+     <y>140</y>
      <width>121</width>
      <height>351</height>
     </rect>
@@ -243,7 +243,7 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QSlider" name="MaxVS_3">
+   <widget class="QSlider" name="maxVS_V">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -262,7 +262,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="minSB_3">
+   <widget class="QSpinBox" name="minSB_V">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -275,7 +275,7 @@
      <number>255</number>
     </property>
    </widget>
-   <widget class="QSlider" name="minVS_3">
+   <widget class="QSlider" name="minVS_V">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -291,7 +291,7 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QSpinBox" name="maxSB_3">
+   <widget class="QSpinBox" name="maxSB_V">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -339,7 +339,7 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QSpinBox" name="SizeSB">
+   <widget class="QSpinBox" name="SizeSB_E">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -349,7 +349,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="RepsSB">
+   <widget class="QSpinBox" name="RepsSB_E">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -359,7 +359,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="GeometryCB">
+   <widget class="QComboBox" name="GeometryCB_E">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -384,7 +384,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QCheckBox" name="DecreaseCHB">
+   <widget class="QCheckBox" name="DecreaseCHB_E">
     <property name="geometry">
      <rect>
       <x>4</x>
@@ -455,7 +455,7 @@
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
-   <widget class="QSpinBox" name="SizeSB_2">
+   <widget class="QSpinBox" name="SizeSB_D">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -465,7 +465,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QSpinBox" name="RepsSB_2">
+   <widget class="QSpinBox" name="RepsSB_D">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -475,7 +475,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="GeometryCB_2">
+   <widget class="QComboBox" name="GeometryCB_D">
     <property name="geometry">
      <rect>
       <x>90</x>
@@ -500,7 +500,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QCheckBox" name="DecreaseCHB_2">
+   <widget class="QCheckBox" name="DecreaseCHB_D">
     <property name="geometry">
      <rect>
       <x>4</x>
@@ -556,27 +556,20 @@
     </property>
    </widget>
   </widget>
-  <widget class="QListWidget" name="listWidget">
+  <widget class="QListWidget" name="FiltersList">
    <property name="geometry">
     <rect>
      <x>350</x>
      <y>30</y>
      <width>331</width>
-     <height>101</height>
+     <height>111</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Legs</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Body</string>
-    </property>
-   </item>
+   <property name="selectionMode">
+    <enum>QAbstractItemView::SingleSelection</enum>
+   </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="AddButton">
    <property name="geometry">
     <rect>
      <x>690</x>
@@ -589,11 +582,11 @@
     <string>+</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="DeleteButton">
    <property name="geometry">
     <rect>
      <x>690</x>
-     <y>70</y>
+     <y>60</y>
      <width>41</width>
      <height>22</height>
     </rect>
@@ -602,11 +595,47 @@
     <string>-</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="SaveButton">
    <property name="geometry">
     <rect>
      <x>690</x>
-     <y>110</y>
+     <y>90</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="FilePathLine">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>620</y>
+     <width>231</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="LoadFileButton">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>620</y>
+     <width>80</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ClearButton">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>120</y>
      <width>41</width>
      <height>22</height>
     </rect>
