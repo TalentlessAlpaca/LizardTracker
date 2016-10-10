@@ -13,13 +13,19 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    calibrationwindow.cpp \
+    colorfilter.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    calibrationwindow.h \
+    colorfilter.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    calibrationwindow.ui
 
 LIBS += `pkg-config opencv --libs`
 
 DISTFILES += \
-    ../../Pictures/awYeah.png
+    ../../Pictures/awYeah.png \
+    Data/defaultFilters.txt

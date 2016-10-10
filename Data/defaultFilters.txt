@@ -1,0 +1,38 @@
+# Filters Files must contain the following fields:
+# NAME:MyFilter     | The name of the filter. Must be th first field and filled
+#                   | with a non null value.
+# HUE:min,max       | A numeric interval. Numbers must be integers
+# SAT:min,max       | A numeric interval. Numbers must be integers
+# VAL:min,max       | A numeric interval. Numbers must be integers
+# ES:int            | Numeric value. Size of the eroding element
+# ER:int            | Numeric value. Number of eroding actions to be performed
+# ED:bool           | Logic value. If true, each iteration will be of a smaller size than the repivous
+# DS:int            | Numeric value. Size of the eroding element
+# DR:int            | Numeric value. Number of eroding actions to be performed
+# DD:bool           | Logic value. If true, each iteration will be of a smaller size than the repivous
+# ENDFILTER         | Must be at the end of each filter specification
+# END               | Goes at the end of the file. Program won't read any read beyond this one.
+NAME:Body
+HUE:0,255
+SAT:0,255
+VAL:0,255
+ES:4
+ER:3
+ED:TRUE
+DS:4
+DR:3
+DD:TRUE
+ENDFILTER
+NAME:Legs
+HUE:0,255
+SAT:0,255
+VAL:0,255
+ES:4
+ER:3
+ED:TRUE
+DS:4
+DR:3
+DD:TRUE
+ENDFILTER
+END
+# This won't be read.
