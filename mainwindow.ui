@@ -17,7 +17,11 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Lizard Tracker</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>Data/icon.ico</normaloff>Data/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="btnDisplay">

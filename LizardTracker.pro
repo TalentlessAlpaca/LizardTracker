@@ -27,5 +27,5 @@ FORMS    += mainwindow.ui \
 LIBS += `pkg-config opencv --libs`
 
 DISTFILES += \
-    ../../Pictures/awYeah.png \
-    Data/defaultFilters.txt
+    Data/defaultFilters.txt \
+    Data/icon.ico \

@@ -368,6 +368,9 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
     <item>
      <property name="text">
       <string>Square</string>
@@ -380,7 +383,7 @@
     </item>
     <item>
      <property name="text">
-      <string>Circle</string>
+      <string>Ellipse</string>
      </property>
     </item>
    </widget>
@@ -484,6 +487,9 @@
       <height>22</height>
      </rect>
     </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
     <item>
      <property name="text">
       <string>Square</string>
@@ -496,7 +502,7 @@
     </item>
     <item>
      <property name="text">
-      <string>Circle</string>
+      <string>Ellipse</string>
      </property>
     </item>
    </widget>

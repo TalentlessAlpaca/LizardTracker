@@ -36,6 +36,7 @@ void CalibrationWindow::loadFilters(QString filePath){
     int maxH,maxS,maxV;
     int eS,eR,dS,dR;
     bool eD,dD;
+    int eG,dG;
     bool endFilters = false;
     int readLine = 0;
     while(!in.atEnd() && !endFilters) {
@@ -60,6 +61,8 @@ void CalibrationWindow::loadFilters(QString filePath){
                     dR = 1;
                     eD = false;
                     dD = false;
+                    eG = cv::MORPH_CROSS;
+                    dG = cv::MORPH_CROSS;
                     qDebug() << "FILTER STARTED";
                 }
             }
@@ -90,6 +93,7 @@ void CalibrationWindow::loadFilters(QString filePath){
                 }
                 if(QString::compare(fields.at(0),"ED",Qt::CaseInsensitive) == 0){
                     eD = (QString::compare(fields.at(1),"TRUE")==0) ? true:false;
+                    qDebug() << eD;
                 }
                 if(QString::compare(fields.at(0),"DS",Qt::CaseInsensitive) == 0){
                     dS = fields.at(1).toInt();
@@ -99,9 +103,16 @@ void CalibrationWindow::loadFilters(QString filePath){
                 }
                 if(QString::compare(fields.at(0),"DD",Qt::CaseInsensitive) == 0){
                     dD = (QString::compare(fields.at(1),"TRUE")==0) ? true:false;
+                    qDebug() << eD;
+                }
+                if(QString::compare(fields.at(0),"EG",Qt::CaseInsensitive) == 0){
+                    eG = fields.at(1).toInt();
+                }
+                if(QString::compare(fields.at(0),"DG",Qt::CaseInsensitive) == 0){
+                    dG = fields.at(1).toInt();
                 }
                 if(QString::compare(fields.at(0),"ENDFILTER",Qt::CaseInsensitive) == 0){
-                    ColorFilter cf(fName,minH,maxH,minS,maxS,minV,maxV,eS,eR,eD,dS,dR,dD);
+                    ColorFilter cf(fName,minH,maxH,minS,maxS,minV,maxV,eS,eR,eD,dS,dR,dD,eG,dG);
                     _filters.push_back(cf);
                     onItem = false;
                 }
@@ -121,7 +132,7 @@ void CalibrationWindow::loadFilters(QString filePath){
         ui->FiltersList->addItem(filters[i].get_name());
     ui->FiltersList->setCurrentRow(0);
     // Update Controls
-    loadCurrentFilter(filters[0]);
+    //loadCurrentFilter(filters[0]);
 }
 
 void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
@@ -146,10 +157,18 @@ void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
     ui->SizeSB_D->setValue(filter.get_dilate()[0]);
     ui->RepsSB_E->setValue(filter.get_erode().size());
     ui->RepsSB_D->setValue(filter.get_dilate().size());
-    if((filter.get_erode()[0]-filter.get_erode()[1])!= 0)   ui->DecreaseCHB_E->setChecked(true);
-    else                                                    ui->DecreaseCHB_E->setChecked(false);
-    if((filter.get_dilate()[0]-filter.get_dilate()[1])!= 0) ui->DecreaseCHB_D->setChecked(true);
-    else                                                    ui->DecreaseCHB_D->setChecked(false);
+    if((filter.get_erode()[0]-filter.get_erode()[filter.get_erode().size()-1])!= 0)   ui->DecreaseCHB_E->setChecked(true);
+    else    ui->DecreaseCHB_E->setChecked(false);
+    if((filter.get_dilate()[0]-filter.get_dilate()[filter.get_dilate().size()-1])!= 0) ui->DecreaseCHB_D->setChecked(true);
+    else    ui->DecreaseCHB_D->setChecked(false);
+
+    qDebug() << "----Eroding Sizes----";
+    qDebug() << "Iterations: " << filter.get_erode().size();
+    for(int i = 0; i < filter.get_erode().size(); i++)
+        qDebug() << filter.get_erode()[i];
+
+    ui->GeometryCB_E->setCurrentIndex(filter.get_erode_geometry());
+    ui->GeometryCB_D->setCurrentIndex(filter.get_dilate_geometry());
 }
 
 void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
@@ -238,7 +257,7 @@ void CalibrationWindow::on_maxSB_V_valueChanged(int arg1)
 
 void CalibrationWindow::on_LoadFileButton_clicked()
 {
-    QString filepath = QFileDialog::getOpenFileName(this,tr("Open Filter File"),"../Data/","All Files (*.*);;Text File (*.txt)");
+    QString filepath = QFileDialog::getOpenFileName(this,tr("Open Filter File"),"./Data/","All Files (*.*);;Text File (*.txt)");
     loadFilters(filepath);
 }
 
@@ -252,3 +271,25 @@ void CalibrationWindow::on_buttonBox_accepted()
 }
 
 
+
+void CalibrationWindow::on_SizeSB_E_valueChanged(int arg1)
+{
+    filters[ui->FiltersList->currentRow()].recalc_erode(arg1,ui->RepsSB_E->value(),ui->DecreaseCHB_E->isChecked());
+}
+
+void CalibrationWindow::on_RepsSB_E_valueChanged(int arg1)
+{
+    filters[ui->FiltersList->currentRow()].recalc_erode(ui->SizeSB_E->value(),arg1,ui->DecreaseCHB_E->isChecked());
+}
+
+
+
+void CalibrationWindow::on_SizeSB_D_valueChanged(int arg1)
+{
+    filters[ui->FiltersList->currentRow()].recalc_dilate(arg1,ui->RepsSB_D->value(),ui->DecreaseCHB_D->isChecked());
+}
+
+void CalibrationWindow::on_RepsSB_D_valueChanged(int arg1)
+{
+    filters[ui->FiltersList->currentRow()].recalc_dilate(ui->SizeSB_D->value(),arg1,ui->DecreaseCHB_D->isChecked());
+}

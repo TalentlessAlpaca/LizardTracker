@@ -7,9 +7,11 @@
 # ES:int            | Numeric value. Size of the eroding element
 # ER:int            | Numeric value. Number of eroding actions to be performed
 # ED:bool           | Logic value. If true, each iteration will be of a smaller size than the repivous
+# EG:int            | 0: Rectangular, 1: Cross, 2: Ellipse
 # DS:int            | Numeric value. Size of the eroding element
 # DR:int            | Numeric value. Number of eroding actions to be performed
 # DD:bool           | Logic value. If true, each iteration will be of a smaller size than the repivous
+# DG:int            | 0: Rectangular, 1: Cross, 2: Ellipse
 # ENDFILTER         | Must be at the end of each filter specification
 # END               | Goes at the end of the file. Program won't read any read beyond this one.
 NAME:Body
@@ -19,9 +21,11 @@ VAL:0,255
 ES:4
 ER:3
 ED:TRUE
+EG:2
 DS:4
 DR:3
 DD:TRUE
+DG:2
 ENDFILTER
 NAME:Legs
 HUE:0,255
@@ -30,9 +34,11 @@ VAL:0,255
 ES:4
 ER:3
 ED:TRUE
+EG:0
 DS:4
 DR:3
 DD:TRUE
+DG:0
 ENDFILTER
 END
 # This won't be read.

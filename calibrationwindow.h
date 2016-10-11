@@ -46,6 +46,12 @@ private slots:
     void on_maxSB_S_valueChanged(int arg1);
     void on_maxSB_V_valueChanged(int arg1);
 
+    void on_SizeSB_E_valueChanged(int arg1);
+    void on_RepsSB_E_valueChanged(int arg1);
+
+    void on_SizeSB_D_valueChanged(int arg1);
+    void on_RepsSB_D_valueChanged(int arg1);
+
 signals:
     void validate();
 

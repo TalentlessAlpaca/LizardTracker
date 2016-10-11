@@ -234,7 +234,7 @@ void MainWindow::on_Param2_HT_sliderMoved(int position)
 
 void MainWindow::on_calibration_Button_clicked()
 {
-    calibration = new CalibrationWindow(this,"defaultFilters.txt");
+    calibration = new CalibrationWindow(this,"Data/defaultFilters.txt");
     calibration->setModal(true);
     connect(calibration,SIGNAL(validate()),this,SLOT(setFilters()));
     calibration->exec();
