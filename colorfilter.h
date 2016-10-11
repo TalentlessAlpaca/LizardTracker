@@ -16,6 +16,8 @@ public:
     std::vector<int> get_dilate();
     cv::Scalar get_minVals();
     cv::Scalar get_maxVals();
+    void set_minVals(int mh, int ms, int mv);
+    void set_maxVals(int mh, int ms, int mv);
     QString get_name();
 private:
     std::vector<int> erode_size;

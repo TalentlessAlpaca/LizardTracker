@@ -58,3 +58,11 @@ cv::Scalar ColorFilter::get_maxVals(){
 QString ColorFilter::get_name(){
     return filterName;
 }
+
+void ColorFilter::set_minVals(int mh, int ms, int mv){
+    minVals = cv::Scalar(mh,ms,mv);
+}
+
+void ColorFilter::set_maxVals(int mh, int ms, int mv){
+    maxVals = cv::Scalar(mh,ms,mv);
+}

@@ -13,6 +13,8 @@
 #include <QDateTime>
 #include <QElapsedTimer>
 #include <QDebug>
+#include "calibrationwindow.h"
+#include "colorfilter.h"
 
 namespace Ui {
 class MainWindow;
@@ -62,6 +64,9 @@ private slots:
 
     void on_Param2_HT_sliderMoved(int position);
 
+    void on_calibration_Button_clicked();
+    void setFilters();
+
 private:
     Ui::MainWindow *ui;
     // Window names
@@ -102,6 +107,8 @@ private:
     QLinkedList<QString> trackData;
     unsigned int frameNo = 0;
     QElapsedTimer timer;
+    std::vector<ColorFilter> filters;
+    CalibrationWindow *calibration;
 };
 
 #endif // MAINWINDOW_H

@@ -6,6 +6,7 @@ CalibrationWindow::CalibrationWindow(QWidget *parent, QString filePath) :
     ui(new Ui::CalibrationWindow)
 {
     ui->setupUi(this);
+    loadFilters(filePath);
 }
 
 CalibrationWindow::CalibrationWindow(QWidget *parent) :
@@ -21,7 +22,7 @@ CalibrationWindow::~CalibrationWindow()
 }
 
 void CalibrationWindow::loadFilters(QString filePath){
-    QFile file("/home/hamad/lesson11.txt");
+    QFile file(filePath);
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(0, "Error Opening File", file.errorString());
     }
@@ -36,12 +37,15 @@ void CalibrationWindow::loadFilters(QString filePath){
     int eS,eR,dS,dR;
     bool eD,dD;
     bool endFilters = false;
+    int readLine = 0;
     while(!in.atEnd() && !endFilters) {
         QString line = in.readLine();
+        qDebug() << readLine << ": "<< line;
         if(!line.startsWith("#")){
             QStringList fields = line.split(":");
+            qDebug() << "Field: "<< fields.at(0);
             if(!onItem){
-                if(QString::compare(fields.at(0),"NAME",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"NAME",Qt::CaseInsensitive) == 0){
                     fName = fields.at(1);
                     onItem = true;
                     minH = 0;
@@ -56,53 +60,58 @@ void CalibrationWindow::loadFilters(QString filePath){
                     dR = 1;
                     eD = false;
                     dD = false;
+                    qDebug() << "FILTER STARTED";
                 }
             }
-            else if(QString::compare(fields.at(0),"NAME",Qt::CaseInsensitive))
+            else if(QString::compare(fields.at(0),"NAME",Qt::CaseInsensitive) == 0){
                 QMessageBox::information(0, "Format Error in File", file.errorString());
+            }
             else{
-                if(QString::compare(fields.at(0),"HUE",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"HUE",Qt::CaseInsensitive) == 0){
                     QStringList interval = fields.at(1).split(",");
                     minH = interval.at(0).toInt();
                     maxH = interval.at(1).toInt();
                 }
-                if(QString::compare(fields.at(0),"SAT",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"SAT",Qt::CaseInsensitive) == 0){
                     QStringList interval = fields.at(1).split(",");
                     minS = interval.at(0).toInt();
                     maxS = interval.at(1).toInt();
                 }
-                if(QString::compare(fields.at(0),"VAL",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"VAL",Qt::CaseInsensitive) == 0){
                     QStringList interval = fields.at(1).split(",");
                     minV = interval.at(0).toInt();
                     maxV = interval.at(1).toInt();
                 }
-                if(QString::compare(fields.at(0),"ES",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"ES",Qt::CaseInsensitive) == 0){
                     eS = fields.at(1).toInt();
                 }
-                if(QString::compare(fields.at(0),"ER",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"ER",Qt::CaseInsensitive) == 0){
                     eR = fields.at(1).toInt();
                 }
-                if(QString::compare(fields.at(0),"ED",Qt::CaseInsensitive)){
-                    eD = QString::compare(fields.at(1),"TRUE");
+                if(QString::compare(fields.at(0),"ED",Qt::CaseInsensitive) == 0){
+                    eD = (QString::compare(fields.at(1),"TRUE")==0) ? true:false;
                 }
-                if(QString::compare(fields.at(0),"DS",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"DS",Qt::CaseInsensitive) == 0){
                     dS = fields.at(1).toInt();
                 }
-                if(QString::compare(fields.at(0),"DR",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"DR",Qt::CaseInsensitive) == 0){
                     dR = fields.at(1).toInt();
                 }
-                if(QString::compare(fields.at(0),"DD",Qt::CaseInsensitive)){
-                    dD = QString::compare(fields.at(1),"TRUE");
+                if(QString::compare(fields.at(0),"DD",Qt::CaseInsensitive) == 0){
+                    dD = (QString::compare(fields.at(1),"TRUE")==0) ? true:false;
                 }
-                if(QString::compare(fields.at(0),"ENDFILTER",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"ENDFILTER",Qt::CaseInsensitive) == 0){
                     ColorFilter cf(fName,minH,maxH,minS,maxS,minV,maxV,eS,eR,eD,dS,dR,dD);
                     _filters.push_back(cf);
+                    onItem = false;
                 }
-                if(QString::compare(fields.at(0),"END",Qt::CaseInsensitive)){
+                if(QString::compare(fields.at(0),"END",Qt::CaseInsensitive) == 0){
                     endFilters = true;
                 }
             }
         }
+
+        readLine++;
     }
     file.close();
     filters = std::vector<ColorFilter>(_filters.begin(),_filters.end());
@@ -120,13 +129,15 @@ void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
     ui->minVS_H->setValue(filter.get_minVals()[0]);
     ui->minVS_S->setValue(filter.get_minVals()[1]);
     ui->minVS_V->setValue(filter.get_minVals()[2]);
-    ui->minSB_H->setValue(filter.get_minVals()[0]);
-    ui->minSB_S->setValue(filter.get_minVals()[1]);
-    ui->minSB_V->setValue(filter.get_minVals()[2]);
 
     ui->maxVS_H->setValue(filter.get_maxVals()[0]);
     ui->maxVS_S->setValue(filter.get_maxVals()[1]);
     ui->maxVS_V->setValue(filter.get_maxVals()[2]);
+
+    ui->minSB_H->setValue(filter.get_minVals()[0]);
+    ui->minSB_S->setValue(filter.get_minVals()[1]);
+    ui->minSB_V->setValue(filter.get_minVals()[2]);
+
     ui->maxSB_H->setValue(filter.get_maxVals()[0]);
     ui->maxSB_S->setValue(filter.get_maxVals()[1]);
     ui->maxSB_V->setValue(filter.get_maxVals()[2]);
@@ -143,7 +154,7 @@ void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
 
 void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
 {
-    loadCurrentFilter(filters[0]);
+    loadCurrentFilter(filters[currentRow]);
 }
 
 void CalibrationWindow::on_minVS_H_valueChanged(int value)
@@ -151,7 +162,7 @@ void CalibrationWindow::on_minVS_H_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_H->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].get_minVals()[0];
+    filters[ui->FiltersList->currentRow()].set_minVals(value,ui->minVS_S->value(),ui->minVS_V->value());
 }
 
 void CalibrationWindow::on_minVS_S_valueChanged(int value)
@@ -159,7 +170,7 @@ void CalibrationWindow::on_minVS_S_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_S->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].get_minVals()[1];
+    filters[ui->FiltersList->currentRow()].set_minVals(ui->minVS_H->value(),value,ui->minVS_V->value());
 }
 
 void CalibrationWindow::on_minVS_V_valueChanged(int value)
@@ -167,7 +178,7 @@ void CalibrationWindow::on_minVS_V_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_V->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].get_minVals()[2];
+    filters[ui->FiltersList->currentRow()].set_minVals(ui->minVS_H->value(),ui->minVS_S->value(),value);
 }
 
 void CalibrationWindow::on_maxVS_H_valueChanged(int value)
@@ -175,7 +186,7 @@ void CalibrationWindow::on_maxVS_H_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_H->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].get_maxVals()[0];
+    filters[ui->FiltersList->currentRow()].set_maxVals(value,ui->maxVS_S->value(),ui->maxVS_V->value());
 }
 
 void CalibrationWindow::on_maxVS_S_valueChanged(int value)
@@ -183,7 +194,7 @@ void CalibrationWindow::on_maxVS_S_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_S->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].get_maxVals()[1];
+    filters[ui->FiltersList->currentRow()].set_maxVals(ui->maxVS_H->value(),value,ui->maxVS_V->value());
 }
 
 void CalibrationWindow::on_maxVS_V_valueChanged(int value)
@@ -191,12 +202,53 @@ void CalibrationWindow::on_maxVS_V_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_V->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].get_maxVals()[2];
+    filters[ui->FiltersList->currentRow()].set_maxVals(ui->maxVS_H->value(),ui->maxVS_S->value(),value);
 }
 
+
+void CalibrationWindow::on_minSB_H_valueChanged(int arg1)
+{
+    ui->minVS_H->setValue(arg1);
+}
+
+void CalibrationWindow::on_minSB_S_valueChanged(int arg1)
+{
+    ui->minVS_S->setValue(arg1);
+}
+
+void CalibrationWindow::on_minSB_V_valueChanged(int arg1)
+{
+    ui->minVS_V->setValue(arg1);
+}
+
+void CalibrationWindow::on_maxSB_H_valueChanged(int arg1)
+{
+    ui->maxVS_H->setValue(arg1);
+}
+
+void CalibrationWindow::on_maxSB_S_valueChanged(int arg1)
+{
+    ui->maxVS_S->setValue(arg1);
+}
+
+void CalibrationWindow::on_maxSB_V_valueChanged(int arg1)
+{
+    ui->maxVS_V->setValue(arg1);
+}
 
 void CalibrationWindow::on_LoadFileButton_clicked()
 {
     QString filepath = QFileDialog::getOpenFileName(this,tr("Open Filter File"),"../Data/","All Files (*.*);;Text File (*.txt)");
     loadFilters(filepath);
 }
+
+std::vector<ColorFilter> *CalibrationWindow::getFilters(){
+    return &filters;
+}
+
+void CalibrationWindow::on_buttonBox_accepted()
+{
+    emit validate();
+}
+
+

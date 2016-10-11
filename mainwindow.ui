@@ -622,6 +622,19 @@
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="calibration_Button">
+    <property name="geometry">
+     <rect>
+      <x>89</x>
+      <y>290</y>
+      <width>91</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Filters</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

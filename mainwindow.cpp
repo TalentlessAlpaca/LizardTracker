@@ -231,3 +231,17 @@ void MainWindow::on_Param2_HT_sliderMoved(int position)
 {
     hc_p2 = position;
 }
+
+void MainWindow::on_calibration_Button_clicked()
+{
+    calibration = new CalibrationWindow(this,"defaultFilters.txt");
+    calibration->setModal(true);
+    connect(calibration,SIGNAL(validate()),this,SLOT(setFilters()));
+    calibration->exec();
+}
+
+void MainWindow::setFilters(){
+    qDebug() << "Accepted Filters";
+    filters = std::vector<ColorFilter>(calibration->getFilters()->begin(),calibration->getFilters()->end());
+    for(int i = 0; i<filters.size();i++) qDebug() << filters[i].get_name();
+}
