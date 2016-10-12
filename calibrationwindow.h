@@ -12,6 +12,8 @@
 #include <QInputDialog>
 #include <QDateTime>
 #include <QGraphicsScene>
+#include "ocvframe.h"
+#include <QTimer>
 
 namespace Ui {
 class CalibrationWindow;
@@ -72,6 +74,8 @@ private:
     void loadFilters(QString filePath);
     void loadCurrentFilter(ColorFilter filter);
     QGraphicsScene frame;
+    OcvFrame *ocvf;
+    QTimer timer;
 };
 
 #endif // CALIBRATIONWINDOW_H

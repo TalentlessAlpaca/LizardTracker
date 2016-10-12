@@ -6,7 +6,19 @@ CalibrationWindow::CalibrationWindow(QWidget *parent, QString filePath) :
     ui(new Ui::CalibrationWindow)
 {
     ui->setupUi(this);
+
     loadFilters(filePath);
+    frame.setSceneRect(-160,-290,160,290);
+    frame.setItemIndexMethod(QGraphicsScene::NoIndex);
+    ocvf = new OcvFrame;
+    frame.addItem(ocvf);
+
+    ui->graphicsView->setScene(&frame);
+    ui->graphicsView->show();
+    timer;
+    QObject::connect(&timer, SIGNAL(timeout()), &frame, SLOT(advance()));
+    timer.start(1000 / 24);
+
 }
 
 CalibrationWindow::CalibrationWindow(QWidget *parent) :
@@ -14,6 +26,17 @@ CalibrationWindow::CalibrationWindow(QWidget *parent) :
     ui(new Ui::CalibrationWindow)
 {
     ui->setupUi(this);
+
+    frame.setSceneRect(-160,-290,160,290);
+    frame.setItemIndexMethod(QGraphicsScene::NoIndex);
+    OcvFrame *ocvf = new OcvFrame;
+    frame.addItem(ocvf);
+
+    ui->graphicsView->setScene(&frame);
+
+    QTimer timer;
+    QObject::connect(&timer, SIGNAL(timeout()), &frame, SLOT(advance()));
+    timer.start(1000 / 24);
 }
 
 CalibrationWindow::~CalibrationWindow()
