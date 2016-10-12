@@ -4,9 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui widgets
 
 TARGET = LizardTracker
 TEMPLATE = app
@@ -15,11 +13,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     calibrationwindow.cpp \
-    colorfilter.cpp
+    colorfilter.cpp \
+    ocvframe.cpp \
+    mouse.cpp
 
 HEADERS  += mainwindow.h \
     calibrationwindow.h \
-    colorfilter.h
+    colorfilter.h \
+    ocvframe.h \
+    mouse.h
 
 FORMS    += mainwindow.ui \
     calibrationwindow.ui
@@ -29,3 +31,4 @@ LIBS += `pkg-config opencv --libs`
 DISTFILES += \
     Data/defaultFilters.txt \
     Data/icon.ico \
+

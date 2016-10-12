@@ -9,6 +9,9 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QDebug>
+#include <QInputDialog>
+#include <QDateTime>
+#include <QGraphicsScene>
 
 namespace Ui {
 class CalibrationWindow;
@@ -52,6 +55,14 @@ private slots:
     void on_SizeSB_D_valueChanged(int arg1);
     void on_RepsSB_D_valueChanged(int arg1);
 
+    void on_AddButton_clicked();
+
+    void on_DeleteButton_clicked();
+
+    void on_SaveButton_clicked();
+
+    void on_ClearButton_clicked();
+
 signals:
     void validate();
 
@@ -60,6 +71,7 @@ private:
     std::vector<ColorFilter> filters;
     void loadFilters(QString filePath);
     void loadCurrentFilter(ColorFilter filter);
+    QGraphicsScene frame;
 };
 
 #endif // CALIBRATIONWINDOW_H

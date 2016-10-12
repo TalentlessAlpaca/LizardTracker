@@ -22,6 +22,9 @@ CalibrationWindow::~CalibrationWindow()
 }
 
 void CalibrationWindow::loadFilters(QString filePath){
+    ui->FiltersList->clear();
+    filters.clear();
+    qDebug() << "List & Vector Cleared";
     QFile file(filePath);
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(0, "Error Opening File", file.errorString());
@@ -153,14 +156,15 @@ void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
     ui->maxSB_S->setValue(filter.get_maxVals()[1]);
     ui->maxSB_V->setValue(filter.get_maxVals()[2]);
     // Update Erode & Dilate
-    ui->SizeSB_E->setValue(filter.get_erode()[0]);
-    ui->SizeSB_D->setValue(filter.get_dilate()[0]);
-    ui->RepsSB_E->setValue(filter.get_erode().size());
-    ui->RepsSB_D->setValue(filter.get_dilate().size());
     if((filter.get_erode()[0]-filter.get_erode()[filter.get_erode().size()-1])!= 0)   ui->DecreaseCHB_E->setChecked(true);
     else    ui->DecreaseCHB_E->setChecked(false);
     if((filter.get_dilate()[0]-filter.get_dilate()[filter.get_dilate().size()-1])!= 0) ui->DecreaseCHB_D->setChecked(true);
     else    ui->DecreaseCHB_D->setChecked(false);
+
+    ui->SizeSB_E->setValue(filter.get_erode()[0]);
+    ui->SizeSB_D->setValue(filter.get_dilate()[0]);
+    ui->RepsSB_E->setValue(filter.get_erode().size());
+    ui->RepsSB_D->setValue(filter.get_dilate().size());
 
     qDebug() << "----Eroding Sizes----";
     qDebug() << "Iterations: " << filter.get_erode().size();
@@ -173,7 +177,56 @@ void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
 
 void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
 {
-    loadCurrentFilter(filters[currentRow]);
+    qDebug() << "Row Changed to:" << currentRow;
+    if(currentRow < 0){
+        ui->ClearButton->setEnabled(false);
+        ui->DeleteButton->setEnabled(false);
+        ui->minSB_H->setEnabled(false);
+        ui->minSB_S->setEnabled(false);
+        ui->minSB_V->setEnabled(false);
+        ui->maxSB_H->setEnabled(false);
+        ui->maxSB_S->setEnabled(false);
+        ui->maxSB_V->setEnabled(false);
+        ui->minVS_H->setEnabled(false);
+        ui->minVS_S->setEnabled(false);
+        ui->minVS_V->setEnabled(false);
+        ui->maxVS_H->setEnabled(false);
+        ui->maxVS_S->setEnabled(false);
+        ui->maxVS_V->setEnabled(false);
+        ui->SizeSB_D->setEnabled(false);
+        ui->SizeSB_E->setEnabled(false);
+        ui->RepsSB_D->setEnabled(false);
+        ui->RepsSB_E->setEnabled(false);
+        ui->GeometryCB_D->setEnabled(false);
+        ui->GeometryCB_E->setEnabled(false);
+        ui->DecreaseCHB_D->setEnabled(false);
+        ui->DecreaseCHB_E->setEnabled(false);
+    }
+    else{
+        loadCurrentFilter(filters[currentRow]);
+        ui->ClearButton->setEnabled(true);
+        ui->DeleteButton->setEnabled(true);
+        ui->minSB_H->setEnabled(true);
+        ui->minSB_S->setEnabled(true);
+        ui->minSB_V->setEnabled(true);
+        ui->maxSB_H->setEnabled(true);
+        ui->maxSB_S->setEnabled(true);
+        ui->maxSB_V->setEnabled(true);
+        ui->minVS_H->setEnabled(true);
+        ui->minVS_S->setEnabled(true);
+        ui->minVS_V->setEnabled(true);
+        ui->maxVS_H->setEnabled(true);
+        ui->maxVS_S->setEnabled(true);
+        ui->maxVS_V->setEnabled(true);
+        ui->SizeSB_D->setEnabled(true);
+        ui->SizeSB_E->setEnabled(true);
+        ui->RepsSB_D->setEnabled(true);
+        ui->RepsSB_E->setEnabled(true);
+        ui->GeometryCB_D->setEnabled(true);
+        ui->GeometryCB_E->setEnabled(true);
+        ui->DecreaseCHB_D->setEnabled(true);
+        ui->DecreaseCHB_E->setEnabled(true);
+    }
 }
 
 void CalibrationWindow::on_minVS_H_valueChanged(int value)
@@ -258,6 +311,7 @@ void CalibrationWindow::on_maxSB_V_valueChanged(int arg1)
 void CalibrationWindow::on_LoadFileButton_clicked()
 {
     QString filepath = QFileDialog::getOpenFileName(this,tr("Open Filter File"),"./Data/","All Files (*.*);;Text File (*.txt)");
+    qDebug() << filepath;
     loadFilters(filepath);
 }
 
@@ -292,4 +346,66 @@ void CalibrationWindow::on_SizeSB_D_valueChanged(int arg1)
 void CalibrationWindow::on_RepsSB_D_valueChanged(int arg1)
 {
     filters[ui->FiltersList->currentRow()].recalc_dilate(ui->SizeSB_D->value(),arg1,ui->DecreaseCHB_D->isChecked());
+}
+
+void CalibrationWindow::on_AddButton_clicked()
+{
+    bool ok;
+    QString name = QInputDialog::getText(this, tr("New Filter"),
+                                         tr("User name:"), QLineEdit::Normal,
+                                         "Wakar", &ok);
+    ColorFilter newFilter = ColorFilter(name,0,255,0,255,0,255,1,1,false,1,1,false,0,0);
+    filters.push_back(newFilter);
+    ui->FiltersList->addItem(name);
+    if(ui->FiltersList->count() > 1) ui->DeleteButton->setEnabled(true);
+    qDebug() << name;
+}
+
+void CalibrationWindow::on_DeleteButton_clicked()
+{
+    int erased = ui->FiltersList->currentRow();
+    if(erased != 0)ui->FiltersList->setCurrentRow(erased-1);
+    ui->FiltersList->takeItem(erased);
+    filters.erase(filters.begin()+erased);
+    if(ui->FiltersList->count() == 1) ui->DeleteButton->setEnabled(false);
+}
+
+void CalibrationWindow::on_SaveButton_clicked()
+{
+    QString Pfile = QFileDialog::getSaveFileName(this,tr("Save Filters File"),"./Data",tr("Text Files (*.txt)"));
+    if (Pfile.compare("",Qt::CaseInsensitive) == 0) return;
+    qDebug() << Pfile;
+
+    QDateTime dt = QDateTime::currentDateTime();
+    QFile file(Pfile);
+    if(file.open(QIODevice::ReadWrite)){
+        QTextStream stream(&file);
+        stream << "#" <<dt.toString() << "\n";
+        for(int i=0; i<filters.size();i++){
+            stream << "NAME:"   << filters.at(i).get_name() << "\n";
+            stream << "HUE:"    << filters.at(i).get_minVals()[0] << "," << filters.at(i).get_maxVals()[0] <<"\n";
+            stream << "SAT:"    << filters.at(i).get_minVals()[1] << "," << filters.at(i).get_maxVals()[1] <<"\n";
+            stream << "VAL:"    << filters.at(i).get_minVals()[2] << "," << filters.at(i).get_maxVals()[2] <<"\n";
+            stream << "ES:"     << filters.at(i).get_erode()[0] << "\n";
+            stream << "ER:"     << filters.at(i).get_erode().size() << "\n";
+            stream << "ED:"     << (((filters.at(i).get_erode()[0]-filters.at(i).get_erode()[filters.at(i).get_erode().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
+            stream << "\n";
+            stream << "EG:"     << filters.at(i).get_erode_geometry() << "\n";
+            stream << "DS:"     << filters.at(i).get_dilate()[0] << "\n";
+            stream << "DR:"     << filters.at(i).get_dilate().size() << "\n";
+            stream << "DD:"     << (((filters.at(i).get_dilate()[0]-filters.at(i).get_dilate()[filters.at(i).get_dilate().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
+            stream <<"\n";
+            stream << "DG:"     << filters.at(i).get_dilate_geometry() << "\n";
+            stream <<  "ENDFILTER" << "\n";
+        }
+        stream <<  "END" << "\n";
+
+    }
+    file.close();
+}
+
+void CalibrationWindow::on_ClearButton_clicked()
+{
+    ui->FiltersList->clear();
+    filters.clear();
 }
