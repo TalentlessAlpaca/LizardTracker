@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Data/defaultFilters.txt</file>
+    </qresource>
+</RCC>
+
+<RCC>
+    <qresource prefix="/" >
+        <file>Data/icon.ico</file>
+    </qresource>
+</RCC>
+
+<RCC>
+    <qresource prefix="/" >
+        <file>Data/hallIcon.png</file>
+    </qresource>
+</RCC>

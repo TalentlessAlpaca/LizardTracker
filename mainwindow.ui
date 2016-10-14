@@ -34,7 +34,11 @@
      </rect>
     </property>
     <property name="text">
-     <string>Open Camera</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Data/webcam.png</normaloff>Data/webcam.png</iconset>
     </property>
    </widget>
    <widget class="QGroupBox" name="Color_GB">
@@ -636,7 +640,11 @@
      </rect>
     </property>
     <property name="text">
-     <string>Filters</string>
+     <string>Configure</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Data/property.png</normaloff>Data/property.png</iconset>
     </property>
    </widget>
   </widget>

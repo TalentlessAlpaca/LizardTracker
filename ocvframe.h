@@ -32,9 +32,15 @@ private:
     std::vector<ColorFilter> *filters;
     int activeFilter = -1;
     bool filteringActive = false;
+
+    int containerHeight = 721;
+    int containerWidth = 561;
+
     bool still = false;
-    int containerHeight = 581;
-    int containerWidth = 321;
+    bool play = true;
+    bool replay = true;
+    bool nextFrame = false;
+
     QImage Mat2QImage(const cv::Mat3b &src);
 
 };

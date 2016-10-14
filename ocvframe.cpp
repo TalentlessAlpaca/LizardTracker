@@ -48,13 +48,14 @@ void OcvFrame::advance(int step)
     int tHeight = currentFrame.rows;
     int tWidth = currentFrame.cols;
     //qDebug() << tWidth << "," << tHeight;
-    cv::Size newSize(321,321*tHeight/tWidth);
+    cv::Size newSize(containerWidth,containerWidth*tHeight/tWidth);
     cv::resize(currentFrame,currentFrame,newSize);
+    cv::flip(currentFrame,currentFrame,1);
     cv::blur( currentFrame, intermediateFrame_A,cv:: Size(3,3) );
     cv::cvtColor( intermediateFrame_A, intermediateFrame_A, CV_BGR2HSV );
     // Apply Filters
     for(int i = 0; filteringActive && (i<filters->size()) && (activeFilter<0); i++){
-        qDebug() << "Filtering Frame: All Filters";
+        //qDebug() << "Filtering Frame: All Filters";
         ColorFilter *cf= &filters->at(i);
 
         // Filter by HSV Vals
@@ -69,7 +70,7 @@ void OcvFrame::advance(int step)
         for(int d = 0; d < cf->get_dilate().size(); d++){
             cv::Mat dilateElement = cv::getStructuringElement(cf->get_dilate_geometry(),
                                                      cv::Size(cf->get_dilate().at(d),cf->get_dilate().at(d)));
-            cv::erode(intermediateFrame_B,intermediateFrame_B,dilateElement);
+            cv::dilate(intermediateFrame_B,intermediateFrame_B,dilateElement);
         }
         if(i==0) displayFrame = cv::Mat::zeros( cv::Size(currentFrame.cols,currentFrame.rows), CV_8U );
         cv::bitwise_or(intermediateFrame_B,displayFrame,displayFrame);
@@ -93,7 +94,7 @@ void OcvFrame::advance(int step)
         for(int d = 0; d < cf->get_dilate().size(); d++){
             cv::Mat dilateElement = cv::getStructuringElement(cf->get_dilate_geometry(),
                                                      cv::Size(cf->get_dilate().at(d),cf->get_dilate().at(d)));
-            cv::erode(intermediateFrame_B,intermediateFrame_B,dilateElement);
+            cv::dilate(intermediateFrame_B,intermediateFrame_B,dilateElement);
         }
 
         displayFrame = intermediateFrame_B;

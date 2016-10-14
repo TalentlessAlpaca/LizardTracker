@@ -473,13 +473,35 @@ void CalibrationWindow::onExit(){
     delete ocvf;
 }
 
-void CalibrationWindow::on_applyCB_stateChanged(int arg1)
-{
-    ocvf->activateFilter(arg1);
-}
 
 void CalibrationWindow::on_comboBox_currentIndexChanged(int index)
 {
     if(index>0) ocvf->setActiveFilter(ui->FiltersList->currentRow());
     else ocvf->setActiveFilter(-1);
+}
+
+void CalibrationWindow::on_DecreaseCHB_D_toggled(bool checked)
+{
+
+}
+
+void CalibrationWindow::on_DecreaseCHB_E_toggled(bool checked)
+{
+
+}
+
+void CalibrationWindow::on_GeometryCB_E_currentIndexChanged(int index)
+{
+
+}
+
+void CalibrationWindow::on_GeometryCB_D_currentIndexChanged(int index)
+{
+
+}
+
+void CalibrationWindow::on_applyCB_toggled(bool checked)
+{
+    ocvf->activateFilter(checked);
+    ui->comboBox->setEnabled(checked);
 }

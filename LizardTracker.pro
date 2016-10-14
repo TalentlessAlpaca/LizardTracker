@@ -26,7 +26,16 @@ FORMS    += mainwindow.ui \
 
 LIBS += `pkg-config opencv --libs`
 
-DISTFILES += \
+RESOURCES += \
+    Data/hallIcon.png \
     Data/defaultFilters.txt \
     Data/icon.ico \
+    Data/file.png \
+    Data/filter.png \
+    Data/forward.png \
+    Data/pause.png \
+    Data/play.png \
+    Data/plot.png \
+    Data/property.png \
+    Data/webcam.png \
 

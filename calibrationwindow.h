@@ -67,9 +67,17 @@ private slots:
 
     void on_ClearButton_clicked();
 
-    void on_applyCB_stateChanged(int arg1);
-
     void on_comboBox_currentIndexChanged(int index);
+
+    void on_DecreaseCHB_D_toggled(bool checked);
+
+    void on_DecreaseCHB_E_toggled(bool checked);
+
+    void on_GeometryCB_E_currentIndexChanged(int index);
+
+    void on_GeometryCB_D_currentIndexChanged(int index);
+
+    void on_applyCB_toggled(bool checked);
 
 signals:
     void validate();
