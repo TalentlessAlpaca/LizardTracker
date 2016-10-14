@@ -5,9 +5,10 @@
 #include <QStyleOption>
 #include <QDebug>
 
-OcvFrame::OcvFrame()
+OcvFrame::OcvFrame(std::vector<ColorFilter> *inFilters)
 {
-    videoStream = cv::VideoCapture(0);
+    videoStream = cv::VideoCapture(1);
+    filters = inFilters;
 }
 
 OcvFrame::OcvFrame(cv::VideoCapture vc){
@@ -16,43 +17,45 @@ OcvFrame::OcvFrame(cv::VideoCapture vc){
 
 QRectF OcvFrame::boundingRect() const
 {
-    int width  = currentFrame.cols/2;
-    int height = currentFrame.rows/2;
-    return QRectF(-width , -height ,
+    int width  = displayFrame.cols;
+    int height = displayFrame.rows;
+    return QRectF(0 , 0 ,
                   width, height);
 }
 
 QPainterPath OcvFrame::shape() const
 {
     QPainterPath path;
-    int width  = currentFrame.cols/2;
-    int height = currentFrame.rows/2;
-    path.addRect(-width, -height, width, height);
+    int width  = displayFrame.cols;
+    int height = displayFrame.rows;
+    path.addRect(0, 0, width, height);
     return path;
 }
 
 void OcvFrame::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    qDebug() << "Re-Painting";
-    painter->drawImage(-currentFrame.cols/2,-currentFrame.rows/2,displayImage);
+    prepareGeometryChange();
+    painter->drawImage(0,0,displayImage,0,0,displayImage.size().width(),displayImage.size().height());
+    //qDebug() << "Display: " <<displayImage.size();
 }
 
 void OcvFrame::advance(int step)
 {
     if (!step)
         return;
-    qDebug() << "Advance Signal";
     // Load newFrame and do some pre-processing
     videoStream >> currentFrame;
     int tHeight = currentFrame.rows;
     int tWidth = currentFrame.cols;
-    double = tHeight/tWidth;
+    //qDebug() << tWidth << "," << tHeight;
+    cv::Size newSize(321,321*tHeight/tWidth);
+    cv::resize(currentFrame,currentFrame,newSize);
     cv::blur( currentFrame, intermediateFrame_A,cv:: Size(3,3) );
     cv::cvtColor( intermediateFrame_A, intermediateFrame_A, CV_BGR2HSV );
     // Apply Filters
-    for(int i = 0; filteringActive && (i<filters.size()); i++){
-        qDebug() << "Filtering Frame";
-        ColorFilter *cf= &filters.at(i);
+    for(int i = 0; filteringActive && (i<filters->size()) && (activeFilter<0); i++){
+        qDebug() << "Filtering Frame: All Filters";
+        ColorFilter *cf= &filters->at(i);
 
         // Filter by HSV Vals
         cv::inRange(intermediateFrame_A,cf->get_minVals(),cf->get_maxVals(),intermediateFrame_B);
@@ -68,14 +71,41 @@ void OcvFrame::advance(int step)
                                                      cv::Size(cf->get_dilate().at(d),cf->get_dilate().at(d)));
             cv::erode(intermediateFrame_B,intermediateFrame_B,dilateElement);
         }
-        if(!i) displayFrame = intermediateFrame_B;
-        else cv::add(intermediateFrame_B,displayFrame,displayFrame);
+        if(i==0) displayFrame = cv::Mat::zeros( cv::Size(currentFrame.cols,currentFrame.rows), CV_8U );
+        cv::bitwise_or(intermediateFrame_B,displayFrame,displayFrame);
 
         cv::GaussianBlur(displayFrame, displayFrame, cv::Size(9, 9), 2, 2);
     }
 
+    if(activeFilter>=0){
+        //qDebug() << "Filtering Frame: Single Filter " << activeFilter;
+        ColorFilter *cf= &filters->at(activeFilter);
+
+        // Filter by HSV Vals
+        cv::inRange(intermediateFrame_A,cf->get_minVals(),cf->get_maxVals(),intermediateFrame_B);
+        // Erode
+        for(int e = 0; e < cf->get_erode().size(); e++){
+            cv::Mat erodeElement = cv::getStructuringElement(cf->get_erode_geometry(),
+                                                     cv::Size(cf->get_erode().at(e),cf->get_erode().at(e)));
+            cv::erode(intermediateFrame_B,intermediateFrame_B,erodeElement);
+        }
+        // Dilate
+        for(int d = 0; d < cf->get_dilate().size(); d++){
+            cv::Mat dilateElement = cv::getStructuringElement(cf->get_dilate_geometry(),
+                                                     cv::Size(cf->get_dilate().at(d),cf->get_dilate().at(d)));
+            cv::erode(intermediateFrame_B,intermediateFrame_B,dilateElement);
+        }
+
+        displayFrame = intermediateFrame_B;
+    }
+
+    //cv::GaussianBlur(displayFrame, displayFrame, cv::Size(9, 9), 2, 2);
+
     if(filteringActive) cv::cvtColor(displayFrame,displayFrame,CV_GRAY2RGB);
     else cv::cvtColor(currentFrame,displayFrame,CV_BGR2RGB);
+
+    cv::GaussianBlur(displayFrame, displayFrame, cv::Size(9, 9), 2, 2);
+
     displayImage = Mat2QImage(displayFrame);
     update();
 }
@@ -90,4 +120,17 @@ QImage OcvFrame::Mat2QImage(const cv::Mat3b &src) {
         }
     }
     return dest;
+}
+
+void OcvFrame::closeStream(){
+    videoStream.release();
+}
+
+
+void OcvFrame::activateFilter(bool state){
+    filteringActive = state;
+}
+
+void OcvFrame::setActiveFilter(int filter){
+    activeFilter = filter;
 }

@@ -700,12 +700,12 @@
    </property>
    <item>
     <property name="text">
-     <string>Current</string>
+     <string>All</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>All</string>
+     <string>Current</string>
     </property>
    </item>
   </widget>

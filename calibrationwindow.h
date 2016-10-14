@@ -25,9 +25,11 @@ class CalibrationWindow : public QDialog
 
 public:
     explicit CalibrationWindow(QWidget *parent = 0);
-    explicit CalibrationWindow(QWidget *parent = 0,QString filePath = "Data/defaultFilters.csv");
+    explicit CalibrationWindow(QWidget *parent = 0,std::vector<ColorFilter> *inFilters = NULL, QString filterPath = "Data/defaultFilters.csv");
+    explicit CalibrationWindow(QWidget *parent, QString filterPath, QString videoPath,bool still);
     ~CalibrationWindow();
     std::vector<ColorFilter> *getFilters();
+    void onExit();
 
 private slots:
     void on_FiltersList_currentRowChanged(int currentRow);
@@ -65,12 +67,16 @@ private slots:
 
     void on_ClearButton_clicked();
 
+    void on_applyCB_stateChanged(int arg1);
+
+    void on_comboBox_currentIndexChanged(int index);
+
 signals:
     void validate();
 
 private:
     Ui::CalibrationWindow *ui;
-    std::vector<ColorFilter> filters;
+    std::vector<ColorFilter> *filters;
     void loadFilters(QString filePath);
     void loadCurrentFilter(ColorFilter filter);
     QGraphicsScene frame;

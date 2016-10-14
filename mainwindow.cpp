@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 }
 
 MainWindow::~MainWindow()
@@ -14,14 +13,25 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::iniFilters(std::vector<ColorFilter> *inFilters){
+    filters = inFilters;
+}
+
 void MainWindow::on_btnDisplay_clicked()
 {
     cv::namedWindow(inputImage);
     cv::namedWindow(outputImage);
-    cv::VideoCapture cap(0);
+    cv::VideoCapture cap(1);
     timer.start();
     do{
         cap >> inputFrame;
+
+        int tHeight = inputFrame.rows;
+        int tWidth = inputFrame.cols;
+        //qDebug() << tWidth << "," << tHeight;
+        cv::Size newSize(321,321*tHeight/tWidth);
+        cv::resize(inputFrame,inputFrame,newSize);
+
         if(hsvEnabled){
             cv::cvtColor( inputFrame, outputFrame, CV_BGR2HSV );
             cv::blur( outputFrame, outputFrame,cv:: Size(3,3) );
@@ -234,7 +244,7 @@ void MainWindow::on_Param2_HT_sliderMoved(int position)
 
 void MainWindow::on_calibration_Button_clicked()
 {
-    calibration = new CalibrationWindow(this,"Data/defaultFilters.txt");
+    calibration = new CalibrationWindow(this,filters,"Data/defaultFilters.txt");
     calibration->setModal(true);
     connect(calibration,SIGNAL(validate()),this,SLOT(setFilters()));
     calibration->exec();
@@ -242,6 +252,8 @@ void MainWindow::on_calibration_Button_clicked()
 
 void MainWindow::setFilters(){
     qDebug() << "Accepted Filters";
-    filters = std::vector<ColorFilter>(calibration->getFilters()->begin(),calibration->getFilters()->end());
-    for(int i = 0; i<filters.size();i++) qDebug() << filters[i].get_name();
+    //filters = std::vector<ColorFilter>(calibration->getFilters()->begin(),calibration->getFilters()->end());
+    for(int i = 0; i<filters->size();i++) qDebug() << filters->at(i).get_name();
+    calibration->onExit();
+    delete calibration;
 }

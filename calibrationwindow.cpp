@@ -1,19 +1,46 @@
 #include "calibrationwindow.h"
 #include "ui_calibrationwindow.h"
 
-CalibrationWindow::CalibrationWindow(QWidget *parent, QString filePath) :
+CalibrationWindow::CalibrationWindow(QWidget *parent, std::vector<ColorFilter> * inFilters, QString filterPath) :
     QDialog(parent),
     ui(new Ui::CalibrationWindow)
 {
     ui->setupUi(this);
 
-    loadFilters(filePath);
-    frame.setSceneRect(-160,-290,160,290);
+    filters = inFilters;
+    ocvf = new OcvFrame(filters);
+    loadFilters(filterPath);
+    //frame = new QGraphicsScene(0,0,321,581,this);
+    frame.setSceneRect(0,0,300,533);
     frame.setItemIndexMethod(QGraphicsScene::NoIndex);
-    ocvf = new OcvFrame;
     frame.addItem(ocvf);
 
     ui->graphicsView->setScene(&frame);
+    ui->graphicsView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    ui->graphicsView->setBackgroundBrush(QBrush(Qt::black,Qt::SolidPattern));
+    ui->graphicsView->show();
+    timer;
+    QObject::connect(&timer, SIGNAL(timeout()), &frame, SLOT(advance()));
+    timer.start(1000 / 24);
+
+}
+
+CalibrationWindow::CalibrationWindow(QWidget *parent, QString filterPath, QString videoPath, bool still) :
+    QDialog(parent),
+    ui(new Ui::CalibrationWindow)
+{
+    ui->setupUi(this);
+
+    loadFilters(filterPath);
+    //frame = new QGraphicsScene(0,0,321,581,this);
+    frame.setSceneRect(0,0,300,533);
+    frame.setItemIndexMethod(QGraphicsScene::NoIndex);
+    ocvf = new OcvFrame(filters);
+    frame.addItem(ocvf);
+
+    ui->graphicsView->setScene(&frame);
+    ui->graphicsView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    ui->graphicsView->setBackgroundBrush(QBrush(Qt::black,Qt::SolidPattern));
     ui->graphicsView->show();
     timer;
     QObject::connect(&timer, SIGNAL(timeout()), &frame, SLOT(advance()));
@@ -29,7 +56,7 @@ CalibrationWindow::CalibrationWindow(QWidget *parent) :
 
     frame.setSceneRect(-160,-290,160,290);
     frame.setItemIndexMethod(QGraphicsScene::NoIndex);
-    OcvFrame *ocvf = new OcvFrame;
+    OcvFrame *ocvf = new OcvFrame(filters);
     frame.addItem(ocvf);
 
     ui->graphicsView->setScene(&frame);
@@ -46,7 +73,7 @@ CalibrationWindow::~CalibrationWindow()
 
 void CalibrationWindow::loadFilters(QString filePath){
     ui->FiltersList->clear();
-    filters.clear();
+    filters->clear();
     qDebug() << "List & Vector Cleared";
     QFile file(filePath);
     if(!file.open(QIODevice::ReadOnly)) {
@@ -151,11 +178,14 @@ void CalibrationWindow::loadFilters(QString filePath){
         readLine++;
     }
     file.close();
-    filters = std::vector<ColorFilter>(_filters.begin(),_filters.end());
+    //filters = std::vector<ColorFilter>(_filters.begin(),_filters.end());
+
     // TODO: Setup Interface
     // Update List
-    for(int i = 0; i < filters.size(); i++)
-        ui->FiltersList->addItem(filters[i].get_name());
+    for(int i = 0; i < _filters.size(); i++){
+        filters->push_back(_filters[i]);
+        ui->FiltersList->addItem(_filters[i].get_name());
+    }
     ui->FiltersList->setCurrentRow(0);
     // Update Controls
     //loadCurrentFilter(filters[0]);
@@ -202,6 +232,8 @@ void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
 {
     qDebug() << "Row Changed to:" << currentRow;
     if(currentRow < 0){
+        ocvf->activateFilter(false);
+        ocvf->setActiveFilter(-1);
         ui->ClearButton->setEnabled(false);
         ui->DeleteButton->setEnabled(false);
         ui->minSB_H->setEnabled(false);
@@ -226,7 +258,10 @@ void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
         ui->DecreaseCHB_E->setEnabled(false);
     }
     else{
-        loadCurrentFilter(filters[currentRow]);
+        loadCurrentFilter(filters->at(currentRow));
+        ocvf->activateFilter(ui->applyCB->isChecked());
+        int filt = (ui->comboBox->currentIndex()==0) ? -1:currentRow;
+        ocvf->setActiveFilter(filt);
         ui->ClearButton->setEnabled(true);
         ui->DeleteButton->setEnabled(true);
         ui->minSB_H->setEnabled(true);
@@ -257,7 +292,7 @@ void CalibrationWindow::on_minVS_H_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_H->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].set_minVals(value,ui->minVS_S->value(),ui->minVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_minVals(value,ui->minVS_S->value(),ui->minVS_V->value());
 }
 
 void CalibrationWindow::on_minVS_S_valueChanged(int value)
@@ -265,7 +300,7 @@ void CalibrationWindow::on_minVS_S_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_S->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].set_minVals(ui->minVS_H->value(),value,ui->minVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_minVals(ui->minVS_H->value(),value,ui->minVS_V->value());
 }
 
 void CalibrationWindow::on_minVS_V_valueChanged(int value)
@@ -273,7 +308,7 @@ void CalibrationWindow::on_minVS_V_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_V->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].set_minVals(ui->minVS_H->value(),ui->minVS_S->value(),value);
+    filters->at(ui->FiltersList->currentRow()).set_minVals(ui->minVS_H->value(),ui->minVS_S->value(),value);
 }
 
 void CalibrationWindow::on_maxVS_H_valueChanged(int value)
@@ -281,7 +316,7 @@ void CalibrationWindow::on_maxVS_H_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_H->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].set_maxVals(value,ui->maxVS_S->value(),ui->maxVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_maxVals(value,ui->maxVS_S->value(),ui->maxVS_V->value());
 }
 
 void CalibrationWindow::on_maxVS_S_valueChanged(int value)
@@ -289,7 +324,7 @@ void CalibrationWindow::on_maxVS_S_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_S->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].set_maxVals(ui->maxVS_H->value(),value,ui->maxVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_maxVals(ui->maxVS_H->value(),value,ui->maxVS_V->value());
 }
 
 void CalibrationWindow::on_maxVS_V_valueChanged(int value)
@@ -297,7 +332,7 @@ void CalibrationWindow::on_maxVS_V_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_V->setValue(value);
     // Change Value in filter
-    filters[ui->FiltersList->currentRow()].set_maxVals(ui->maxVS_H->value(),ui->maxVS_S->value(),value);
+    filters->at(ui->FiltersList->currentRow()).set_maxVals(ui->maxVS_H->value(),ui->maxVS_S->value(),value);
 }
 
 
@@ -339,7 +374,7 @@ void CalibrationWindow::on_LoadFileButton_clicked()
 }
 
 std::vector<ColorFilter> *CalibrationWindow::getFilters(){
-    return &filters;
+    return filters;
 }
 
 void CalibrationWindow::on_buttonBox_accepted()
@@ -351,24 +386,24 @@ void CalibrationWindow::on_buttonBox_accepted()
 
 void CalibrationWindow::on_SizeSB_E_valueChanged(int arg1)
 {
-    filters[ui->FiltersList->currentRow()].recalc_erode(arg1,ui->RepsSB_E->value(),ui->DecreaseCHB_E->isChecked());
+    filters->at(ui->FiltersList->currentRow()).recalc_erode(arg1,ui->RepsSB_E->value(),ui->DecreaseCHB_E->isChecked());
 }
 
 void CalibrationWindow::on_RepsSB_E_valueChanged(int arg1)
 {
-    filters[ui->FiltersList->currentRow()].recalc_erode(ui->SizeSB_E->value(),arg1,ui->DecreaseCHB_E->isChecked());
+    filters->at(ui->FiltersList->currentRow()).recalc_erode(ui->SizeSB_E->value(),arg1,ui->DecreaseCHB_E->isChecked());
 }
 
 
 
 void CalibrationWindow::on_SizeSB_D_valueChanged(int arg1)
 {
-    filters[ui->FiltersList->currentRow()].recalc_dilate(arg1,ui->RepsSB_D->value(),ui->DecreaseCHB_D->isChecked());
+    filters->at(ui->FiltersList->currentRow()).recalc_dilate(arg1,ui->RepsSB_D->value(),ui->DecreaseCHB_D->isChecked());
 }
 
 void CalibrationWindow::on_RepsSB_D_valueChanged(int arg1)
 {
-    filters[ui->FiltersList->currentRow()].recalc_dilate(ui->SizeSB_D->value(),arg1,ui->DecreaseCHB_D->isChecked());
+    filters->at(ui->FiltersList->currentRow()).recalc_dilate(ui->SizeSB_D->value(),arg1,ui->DecreaseCHB_D->isChecked());
 }
 
 void CalibrationWindow::on_AddButton_clicked()
@@ -378,7 +413,7 @@ void CalibrationWindow::on_AddButton_clicked()
                                          tr("User name:"), QLineEdit::Normal,
                                          "Wakar", &ok);
     ColorFilter newFilter = ColorFilter(name,0,255,0,255,0,255,1,1,false,1,1,false,0,0);
-    filters.push_back(newFilter);
+    filters->push_back(newFilter);
     ui->FiltersList->addItem(name);
     if(ui->FiltersList->count() > 1) ui->DeleteButton->setEnabled(true);
     qDebug() << name;
@@ -389,7 +424,7 @@ void CalibrationWindow::on_DeleteButton_clicked()
     int erased = ui->FiltersList->currentRow();
     if(erased != 0)ui->FiltersList->setCurrentRow(erased-1);
     ui->FiltersList->takeItem(erased);
-    filters.erase(filters.begin()+erased);
+    filters->erase(filters->begin()+erased);
     if(ui->FiltersList->count() == 1) ui->DeleteButton->setEnabled(false);
 }
 
@@ -404,21 +439,21 @@ void CalibrationWindow::on_SaveButton_clicked()
     if(file.open(QIODevice::ReadWrite)){
         QTextStream stream(&file);
         stream << "#" <<dt.toString() << "\n";
-        for(int i=0; i<filters.size();i++){
-            stream << "NAME:"   << filters.at(i).get_name() << "\n";
-            stream << "HUE:"    << filters.at(i).get_minVals()[0] << "," << filters.at(i).get_maxVals()[0] <<"\n";
-            stream << "SAT:"    << filters.at(i).get_minVals()[1] << "," << filters.at(i).get_maxVals()[1] <<"\n";
-            stream << "VAL:"    << filters.at(i).get_minVals()[2] << "," << filters.at(i).get_maxVals()[2] <<"\n";
-            stream << "ES:"     << filters.at(i).get_erode()[0] << "\n";
-            stream << "ER:"     << filters.at(i).get_erode().size() << "\n";
-            stream << "ED:"     << (((filters.at(i).get_erode()[0]-filters.at(i).get_erode()[filters.at(i).get_erode().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
+        for(int i=0; i<filters->size();i++){
+            stream << "NAME:"   << filters->at(i).get_name() << "\n";
+            stream << "HUE:"    << filters->at(i).get_minVals()[0] << "," << filters->at(i).get_maxVals()[0] <<"\n";
+            stream << "SAT:"    << filters->at(i).get_minVals()[1] << "," << filters->at(i).get_maxVals()[1] <<"\n";
+            stream << "VAL:"    << filters->at(i).get_minVals()[2] << "," << filters->at(i).get_maxVals()[2] <<"\n";
+            stream << "ES:"     << filters->at(i).get_erode()[0] << "\n";
+            stream << "ER:"     << filters->at(i).get_erode().size() << "\n";
+            stream << "ED:"     << (((filters->at(i).get_erode()[0]-filters->at(i).get_erode()[filters->at(i).get_erode().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
             stream << "\n";
-            stream << "EG:"     << filters.at(i).get_erode_geometry() << "\n";
-            stream << "DS:"     << filters.at(i).get_dilate()[0] << "\n";
-            stream << "DR:"     << filters.at(i).get_dilate().size() << "\n";
-            stream << "DD:"     << (((filters.at(i).get_dilate()[0]-filters.at(i).get_dilate()[filters.at(i).get_dilate().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
+            stream << "EG:"     << filters->at(i).get_erode_geometry() << "\n";
+            stream << "DS:"     << filters->at(i).get_dilate()[0] << "\n";
+            stream << "DR:"     << filters->at(i).get_dilate().size() << "\n";
+            stream << "DD:"     << (((filters->at(i).get_dilate()[0]-filters->at(i).get_dilate()[filters->at(i).get_dilate().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
             stream <<"\n";
-            stream << "DG:"     << filters.at(i).get_dilate_geometry() << "\n";
+            stream << "DG:"     << filters->at(i).get_dilate_geometry() << "\n";
             stream <<  "ENDFILTER" << "\n";
         }
         stream <<  "END" << "\n";
@@ -430,5 +465,21 @@ void CalibrationWindow::on_SaveButton_clicked()
 void CalibrationWindow::on_ClearButton_clicked()
 {
     ui->FiltersList->clear();
-    filters.clear();
+    filters->clear();
+}
+
+void CalibrationWindow::onExit(){
+    ocvf->closeStream();
+    delete ocvf;
+}
+
+void CalibrationWindow::on_applyCB_stateChanged(int arg1)
+{
+    ocvf->activateFilter(arg1);
+}
+
+void CalibrationWindow::on_comboBox_currentIndexChanged(int index)
+{
+    if(index>0) ocvf->setActiveFilter(ui->FiltersList->currentRow());
+    else ocvf->setActiveFilter(-1);
 }

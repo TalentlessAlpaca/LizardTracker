@@ -26,6 +26,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void iniFilters(std::vector<ColorFilter> * inFilters);
     ~MainWindow();
 
 private slots:
@@ -107,7 +108,7 @@ private:
     QLinkedList<QString> trackData;
     unsigned int frameNo = 0;
     QElapsedTimer timer;
-    std::vector<ColorFilter> filters;
+    std::vector<ColorFilter> *filters;
     CalibrationWindow *calibration;
 };
 
