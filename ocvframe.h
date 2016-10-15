@@ -43,6 +43,8 @@ private:
 
     QImage Mat2QImage(const cv::Mat3b &src);
 
+    std::vector<cv::Vec3f> circles;
+
 };
 
 #endif // OCVFRAME_H

@@ -482,26 +482,85 @@ void CalibrationWindow::on_comboBox_currentIndexChanged(int index)
 
 void CalibrationWindow::on_DecreaseCHB_D_toggled(bool checked)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->recalc_dilate(ui->SizeSB_D->value(),ui->RepsSB_D->value(),checked);
 }
 
 void CalibrationWindow::on_DecreaseCHB_E_toggled(bool checked)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->recalc_dilate(ui->SizeSB_D->value(),ui->RepsSB_D->value(),checked);
 }
 
 void CalibrationWindow::on_GeometryCB_E_currentIndexChanged(int index)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->set_erode_geometry(index);
 }
 
 void CalibrationWindow::on_GeometryCB_D_currentIndexChanged(int index)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->set_dilate_geometry(index);
 }
 
 void CalibrationWindow::on_applyCB_toggled(bool checked)
 {
     ocvf->activateFilter(checked);
     ui->comboBox->setEnabled(checked);
+}
+
+void CalibrationWindow::on_cannySlider_valueChanged(int value)
+{
+
+}
+
+void CalibrationWindow::on_centersSlider_valueChanged(int value)
+{
+
+}
+
+void CalibrationWindow::on_minDistSlider_valueChanged(int value)
+{
+
+}
+
+void CalibrationWindow::on_cannySB_valueChanged(int arg1)
+{
+
+}
+
+void CalibrationWindow::on_centersSB_valueChanged(int arg1)
+{
+
+}
+
+void CalibrationWindow::on_minDistSB_valueChanged(int arg1)
+{
+
+}
+
+void CalibrationWindow::on_minRadSB_valueChanged(int arg1)
+{
+
+}
+
+void CalibrationWindow::on_maxRadSB_valueChanged(int arg1)
+{
+
+}
+
+void CalibrationWindow::on_edgeRB_toggled(bool checked)
+{
+
+}
+
+void CalibrationWindow::on_circlesRB_toggled(bool checked)
+{
+
+}
+
+void CalibrationWindow::on_disableRB_toggled(bool checked)
+{
+
 }

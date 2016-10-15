@@ -79,6 +79,28 @@ private slots:
 
     void on_applyCB_toggled(bool checked);
 
+    void on_cannySlider_valueChanged(int value);
+
+    void on_centersSlider_valueChanged(int value);
+
+    void on_minDistSlider_valueChanged(int value);
+
+    void on_cannySB_valueChanged(int arg1);
+
+    void on_centersSB_valueChanged(int arg1);
+
+    void on_minDistSB_valueChanged(int arg1);
+
+    void on_minRadSB_valueChanged(int arg1);
+
+    void on_maxRadSB_valueChanged(int arg1);
+
+    void on_edgeRB_toggled(bool checked);
+
+    void on_circlesRB_toggled(bool checked);
+
+    void on_disableRB_toggled(bool checked);
+
 signals:
     void validate();
 

@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/mainWindow">
+        <file>Data/webcam.png</file>
+        <file>Data/track.png</file>
+        <file>Data/plot2.png</file>
+        <file>Data/property.png</file>
+        <file>Data/folder.png</file>
+        <file>Data/icon.ico</file>
+    </qresource>
+    <qresource prefix="/calibrationWindow">
+        <file>Data/add.png</file>
+        <file>Data/clear.png</file>
+        <file>Data/copy.png</file>
+        <file>Data/delete.png</file>
+        <file>Data/file.png</file>
+        <file>Data/filter.png</file>
+        <file>Data/folder.png</file>
+        <file>Data/forward.png</file>
+        <file>Data/hallIcon.png</file>
+        <file>Data/pause.png</file>
+        <file>Data/play.png</file>
+        <file>Data/plot.png</file>
+        <file>Data/plot2.png</file>
+        <file>Data/property.png</file>
+        <file>Data/repeat.png</file>
+        <file>Data/save.png</file>
+        <file>Data/shapes.png</file>
+        <file>Data/shapes2.png</file>
+        <file>Data/shapes3.png</file>
+        <file>Data/size.png</file>
+        <file>Data/track.png</file>
+        <file>Data/webcam.png</file>
+    </qresource>
+</RCC>

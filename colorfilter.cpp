@@ -97,3 +97,67 @@ void ColorFilter::set_erode_geometry(int id){
 void ColorFilter::set_dilate_geometry(int id){
     dilate_geometry = id;
 }
+
+bool ColorFilter::getHoughActive(){
+    return houghActive;
+}
+
+void ColorFilter::setHoughActive(bool state){
+    houghActive = state;
+}
+
+bool ColorFilter::getEdgeActive(){
+    return edgeActive;
+}
+
+void ColorFilter::setEdgeActive(bool state){
+    edgeActive = state;
+}
+
+int ColorFilter::getCannyThreshold(){
+    return cannyThreshold;
+}
+
+void ColorFilter::setCannyThreshold(int val){
+    cannyThreshold = val;
+}
+
+int ColorFilter::getCentersThreshold(){
+    return centersThreshold;
+}
+
+void ColorFilter::setCentersThreshold(int val){
+    centersThreshold = val;
+}
+
+int ColorFilter::getMinCenterDistance(){
+    return minCenterDistance;
+}
+
+void ColorFilter::setMinCenterDistance(int val){
+    minCenterDistance = val;
+}
+
+int ColorFilter::getMinRadius(){
+    return minRadius;
+}
+
+void ColorFilter::setMinRadius(int val){
+    minRadius = val;
+}
+
+int ColorFilter::getMaxRadius(){
+    return maxRadius;
+}
+
+void ColorFilter::setmMxRadius(int val){
+    maxRadius = val;
+}
+
+QColor ColorFilter::getfilterColor(){
+    return filterColor;
+}
+
+void ColorFilter::setfilterColor(int h, int s, int v){
+    filterColor.setHsv(h,s,v);
+}

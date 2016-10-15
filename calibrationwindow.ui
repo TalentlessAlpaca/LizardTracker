@@ -48,7 +48,7 @@
      <x>610</x>
      <y>140</y>
      <width>121</width>
-     <height>351</height>
+     <height>281</height>
     </rect>
    </property>
    <property name="title">
@@ -63,7 +63,7 @@
       <x>70</x>
       <y>30</y>
       <width>47</width>
-      <height>281</height>
+      <height>210</height>
      </rect>
     </property>
     <property name="maximum">
@@ -80,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>250</y>
       <width>47</width>
       <height>23</height>
      </rect>
@@ -95,7 +95,7 @@
       <x>10</x>
       <y>30</y>
       <width>47</width>
-      <height>281</height>
+      <height>210</height>
      </rect>
     </property>
     <property name="maximum">
@@ -109,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>320</y>
+      <y>250</y>
       <width>47</width>
       <height>23</height>
      </rect>
@@ -128,7 +128,7 @@
      <x>740</x>
      <y>140</y>
      <width>121</width>
-     <height>351</height>
+     <height>281</height>
     </rect>
    </property>
    <property name="title">
@@ -143,7 +143,7 @@
       <x>70</x>
       <y>30</y>
       <width>47</width>
-      <height>281</height>
+      <height>210</height>
      </rect>
     </property>
     <property name="maximum">
@@ -160,7 +160,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>250</y>
       <width>47</width>
       <height>23</height>
      </rect>
@@ -175,7 +175,7 @@
       <x>10</x>
       <y>30</y>
       <width>47</width>
-      <height>281</height>
+      <height>210</height>
      </rect>
     </property>
     <property name="maximum">
@@ -189,7 +189,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>320</y>
+      <y>250</y>
       <width>47</width>
       <height>23</height>
      </rect>
@@ -208,7 +208,7 @@
      <x>870</x>
      <y>140</y>
      <width>121</width>
-     <height>351</height>
+     <height>281</height>
     </rect>
    </property>
    <property name="title">
@@ -223,7 +223,7 @@
       <x>70</x>
       <y>30</y>
       <width>47</width>
-      <height>281</height>
+      <height>210</height>
      </rect>
     </property>
     <property name="maximum">
@@ -240,7 +240,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>250</y>
       <width>47</width>
       <height>23</height>
      </rect>
@@ -255,7 +255,7 @@
       <x>10</x>
       <y>30</y>
       <width>47</width>
-      <height>281</height>
+      <height>210</height>
      </rect>
     </property>
     <property name="maximum">
@@ -269,7 +269,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>320</y>
+      <y>250</y>
       <width>47</width>
       <height>23</height>
      </rect>
@@ -302,7 +302,7 @@
    <property name="geometry">
     <rect>
      <x>610</x>
-     <y>490</y>
+     <y>440</y>
      <width>171</width>
      <height>141</height>
     </rect>
@@ -311,7 +311,7 @@
     <string>Erode</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
    <widget class="QSpinBox" name="SizeSB_E">
     <property name="geometry">
@@ -382,12 +382,18 @@
      <rect>
       <x>6</x>
       <y>90</y>
-      <width>81</width>
+      <width>22</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Geometry</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="icons.qrc">:/calibrationWindow/Data/shapes3.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -395,12 +401,18 @@
      <rect>
       <x>6</x>
       <y>60</y>
-      <width>81</width>
+      <width>22</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Iterations</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="icons.qrc">:/calibrationWindow/Data/repeat.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -408,12 +420,18 @@
      <rect>
       <x>6</x>
       <y>30</y>
-      <width>81</width>
+      <width>22</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Size</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="icons.qrc">:/calibrationWindow/Data/size.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -421,7 +439,7 @@
    <property name="geometry">
     <rect>
      <x>820</x>
-     <y>490</y>
+     <y>440</y>
      <width>171</width>
      <height>141</height>
     </rect>
@@ -430,7 +448,7 @@
     <string>Dilate</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
    <widget class="QSpinBox" name="SizeSB_D">
     <property name="geometry">
@@ -500,48 +518,66 @@
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>90</y>
-      <width>81</width>
+      <y>60</y>
+      <width>22</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Geometry</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="icons.qrc">:/calibrationWindow/Data/repeat.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>60</y>
-      <width>81</width>
+      <y>30</y>
+      <width>22</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Iterations</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="icons.qrc">:/calibrationWindow/Data/size.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
       <x>6</x>
-      <y>30</y>
-      <width>81</width>
+      <y>90</y>
+      <width>22</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
-     <string>Size</string>
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="icons.qrc">:/calibrationWindow/Data/shapes3.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
   <widget class="QListWidget" name="FiltersList">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>610</x>
      <y>30</y>
-     <width>301</width>
+     <width>331</width>
      <height>111</height>
     </rect>
    </property>
@@ -559,7 +595,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>+</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/add.png</normaloff>:/calibrationWindow/Data/add.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="DeleteButton">
@@ -572,7 +612,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>-</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/delete.png</normaloff>:/calibrationWindow/Data/delete.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="SaveButton">
@@ -585,7 +629,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/save.png</normaloff>:/calibrationWindow/Data/save.png</iconset>
    </property>
   </widget>
   <widget class="QLineEdit" name="FilePathLine">
@@ -608,7 +656,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>Open</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/folder.png</normaloff>:/calibrationWindow/Data/folder.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="ClearButton">
@@ -621,7 +673,11 @@
     </rect>
    </property>
    <property name="text">
-    <string>Clear</string>
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/clear.png</normaloff>:/calibrationWindow/Data/clear.png</iconset>
    </property>
    <property name="checkable">
     <bool>false</bool>
@@ -632,7 +688,7 @@
     <rect>
      <x>10</x>
      <y>40</y>
-     <width>561</width>
+     <width>500</width>
      <height>721</height>
     </rect>
    </property>
@@ -640,8 +696,8 @@
   <widget class="QPushButton" name="playButton">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>30</y>
+     <x>520</x>
+     <y>40</y>
      <width>31</width>
      <height>22</height>
     </rect>
@@ -650,15 +706,15 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>Data/play.png</normaloff>Data/play.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/play.png</normaloff>:/calibrationWindow/Data/play.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="pauseButton">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>60</y>
+     <x>520</x>
+     <y>70</y>
      <width>31</width>
      <height>22</height>
     </rect>
@@ -667,15 +723,15 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>Data/pause.png</normaloff>Data/pause.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/pause.png</normaloff>:/calibrationWindow/Data/pause.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="fileButton">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>90</y>
+     <x>520</x>
+     <y>100</y>
      <width>31</width>
      <height>22</height>
     </rect>
@@ -684,15 +740,15 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>Data/webcam.png</normaloff>Data/webcam.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/file.png</normaloff>:/calibrationWindow/Data/file.png</iconset>
    </property>
   </widget>
   <widget class="QPushButton" name="cameraButton">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>120</y>
+     <x>520</x>
+     <y>130</y>
      <width>31</width>
      <height>22</height>
     </rect>
@@ -701,8 +757,8 @@
     <string notr="true"/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>Data/webcam.png</normaloff>Data/webcam.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/webcam.png</normaloff>:/calibrationWindow/Data/webcam.png</iconset>
    </property>
   </widget>
   <widget class="QComboBox" name="comboBox">
@@ -711,7 +767,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>420</x>
      <y>10</y>
      <width>91</width>
      <height>20</height>
@@ -731,7 +787,7 @@
   <widget class="QCheckBox" name="applyCB">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>370</x>
      <y>10</y>
      <width>41</width>
      <height>20</height>
@@ -744,12 +800,299 @@
     <string/>
    </property>
    <property name="icon">
-    <iconset>
-     <normaloff>Data/filter.png</normaloff>Data/filter.png</iconset>
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/filter.png</normaloff>:/calibrationWindow/Data/filter.png</iconset>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>600</y>
+     <width>381</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Hough Transform</string>
+   </property>
+   <widget class="QSlider" name="cannySlider">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>30</y>
+      <width>110</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>100</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="centersSlider">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>60</y>
+      <width>110</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>20</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Canny Thr</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Centers Thr</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="cannySB">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>27</y>
+      <width>47</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>100</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="centersSB">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>57</y>
+      <width>47</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>20</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="minDistSB">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>87</y>
+      <width>47</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>5</number>
+    </property>
+   </widget>
+   <widget class="QSlider" name="minDistSlider">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>90</y>
+      <width>110</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>5</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cent. Min. D.</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="edgeRB">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>30</y>
+      <width>99</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Preview Edge</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="circlesRB">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>60</y>
+      <width>99</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Find Circles</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="disableRB">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>90</y>
+      <width>99</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Disabled</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="minRadSB">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>130</y>
+      <width>47</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>2</number>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="maxRadSB">
+    <property name="geometry">
+     <rect>
+      <x>225</x>
+      <y>130</y>
+      <width>47</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>0</number>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>20</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Min. Radius</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>130</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Max. Radius</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QSpinBox" name="spinBox_6">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>160</y>
+     <width>31</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>0</number>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -30,41 +30,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_btnDisplay_clicked();
-
-    void on_minHueSlider_sliderMoved(int position);
-    void on_maxHueSlider_sliderMoved(int position);
-    void on_minSatSlider_sliderMoved(int position);
-    void on_maxSatSlider_sliderMoved(int position);
-    void on_minValSlider_sliderMoved(int position);
-    void on_maxValSlider_sliderMoved(int position);
-
-    void on_Color_GB_toggled(bool arg1);
-
-    void on_erodeCB_currentIndexChanged(int index);
-
-    void on_dilateCB_currentIndexChanged(int index);
-
-    void on_ErodeDilate_GB_toggled(bool arg1);
-
-    void on_erodeSizeBox_valueChanged(int arg1);
-
-    void on_dilateSizeBox_valueChanged(int arg1);
-
-    void on_erodeRepsBox_valueChanged(int arg1);
-
-    void on_dilateRepsBox_valueChanged(int arg1);
-
-    void on_Tracking_GB_toggled(bool arg1);
-
-    void on_spinBox_valueChanged(int arg1);
-
-    void on_horizontalSlider_sliderMoved(int position);
-
-    void on_Param1_HT_sliderMoved(int position);
-
-    void on_Param2_HT_sliderMoved(int position);
-
     void on_calibration_Button_clicked();
     void setFilters();
 

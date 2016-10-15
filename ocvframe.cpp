@@ -7,7 +7,7 @@
 
 OcvFrame::OcvFrame(std::vector<ColorFilter> *inFilters)
 {
-    videoStream = cv::VideoCapture(1);
+    videoStream = cv::VideoCapture(0);
     filters = inFilters;
 }
 
@@ -48,11 +48,11 @@ void OcvFrame::advance(int step)
     int tHeight = currentFrame.rows;
     int tWidth = currentFrame.cols;
     //qDebug() << tWidth << "," << tHeight;
+    cv::blur( currentFrame, currentFrame,cv:: Size(3,3) );
     cv::Size newSize(containerWidth,containerWidth*tHeight/tWidth);
     cv::resize(currentFrame,currentFrame,newSize);
     cv::flip(currentFrame,currentFrame,1);
-    cv::blur( currentFrame, intermediateFrame_A,cv:: Size(3,3) );
-    cv::cvtColor( intermediateFrame_A, intermediateFrame_A, CV_BGR2HSV );
+    cv::cvtColor( currentFrame, intermediateFrame_A, CV_BGR2HSV );
     // Apply Filters
     for(int i = 0; filteringActive && (i<filters->size()) && (activeFilter<0); i++){
         //qDebug() << "Filtering Frame: All Filters";
@@ -72,10 +72,28 @@ void OcvFrame::advance(int step)
                                                      cv::Size(cf->get_dilate().at(d),cf->get_dilate().at(d)));
             cv::dilate(intermediateFrame_B,intermediateFrame_B,dilateElement);
         }
+
+        if(cf->getEdgeActive()){
+            Canny( intermediateFrame_B, intermediateFrame_B, cf->getCannyThreshold()/3, cf->getCannyThreshold(), 3);
+        }
+        else if(cf->getHoughActive()){
+            HoughCircles( intermediateFrame_B, circles, CV_HOUGH_GRADIENT, 1, (double)(cf->getMinCenterDistance()), (double)(cf->getCannyThreshold()),
+                          (double)(cf->getCentersThreshold()), (double)(cf->get_minVals(), cf->getMaxRadius()) );
+            for( size_t i = 0; i < circles.size(); i++ ){
+
+                cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
+                int radius = cvRound(circles[i][2]);
+                // circle center
+                cv::Scalar fColor((double)(cf->getfilterColor().blue()),(double)(cf->getfilterColor().green()),(double)(cf->getfilterColor().red()));
+                circle( intermediateFrame_B, center, 3, fColor, -1, 8, 0 );
+                // circle outline
+                circle( intermediateFrame_B, center, radius, fColor, 3, 8, 0 );
+            }
+        }
+
         if(i==0) displayFrame = cv::Mat::zeros( cv::Size(currentFrame.cols,currentFrame.rows), CV_8U );
         cv::bitwise_or(intermediateFrame_B,displayFrame,displayFrame);
 
-        cv::GaussianBlur(displayFrame, displayFrame, cv::Size(9, 9), 2, 2);
     }
 
     if(activeFilter>=0){
@@ -99,6 +117,7 @@ void OcvFrame::advance(int step)
 
         displayFrame = intermediateFrame_B;
     }
+
 
     //cv::GaussianBlur(displayFrame, displayFrame, cv::Size(9, 9), 2, 2);
 

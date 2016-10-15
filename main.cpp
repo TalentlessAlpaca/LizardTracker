@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
     std::vector<ColorFilter> *filters = new std::vector<ColorFilter>();
     QApplication a(argc, argv);
-    a.setWindowIcon(QIcon("./Data/icon.ico"));
+    //a.setWindowIcon(QIcon("./Data/icon.ico"));
     MainWindow w;
     w.iniFilters(filters);
     w.show();

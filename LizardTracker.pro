@@ -38,4 +38,13 @@ RESOURCES += \
     Data/plot.png \
     Data/property.png \
     Data/webcam.png \
+    Data/delete.png \
+    icons.qrc
+    Data/add.png
+    Data/clear.png
+    Data/repeat.png
+    Data/size.png
+    Data/folder.png
+    Data/save.png
+    Data/copy.png
 
