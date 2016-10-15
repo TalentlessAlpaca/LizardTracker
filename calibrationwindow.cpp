@@ -512,32 +512,36 @@ void CalibrationWindow::on_applyCB_toggled(bool checked)
 
 void CalibrationWindow::on_cannySlider_valueChanged(int value)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->setCannyThreshold(value);
 }
 
 void CalibrationWindow::on_centersSlider_valueChanged(int value)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->setCentersThreshold(value);
 }
 
 void CalibrationWindow::on_minDistSlider_valueChanged(int value)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->setMinCenterDistance(value);
 }
 
 void CalibrationWindow::on_cannySB_valueChanged(int arg1)
 {
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
 
 }
 
 void CalibrationWindow::on_centersSB_valueChanged(int arg1)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
 }
 
 void CalibrationWindow::on_minDistSB_valueChanged(int arg1)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
 }
 
 void CalibrationWindow::on_minRadSB_valueChanged(int arg1)
