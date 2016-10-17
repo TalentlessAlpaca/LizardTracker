@@ -32,6 +32,7 @@ public:
 private slots:
     void on_calibration_Button_clicked();
     void setFilters();
+    void cancelFilters();
 
 private:
     Ui::MainWindow *ui;

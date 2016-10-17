@@ -92,6 +92,7 @@ void CalibrationWindow::loadFilters(QString filePath){
     int eG,dG;
     bool endFilters = false;
     int readLine = 0;
+    int p1,p2,mD,minR,maxR,sT;
     while(!in.atEnd() && !endFilters) {
         QString line = in.readLine();
         qDebug() << readLine << ": "<< line;
@@ -116,6 +117,12 @@ void CalibrationWindow::loadFilters(QString filePath){
                     dD = false;
                     eG = cv::MORPH_CROSS;
                     dG = cv::MORPH_CROSS;
+                    p1 = 100;
+                    p2 = 20;
+                    mD = 5;
+                    minR = 2;
+                    maxR = 20;
+                    sT = 0;
                     qDebug() << "FILTER STARTED";
                 }
             }
@@ -164,14 +171,40 @@ void CalibrationWindow::loadFilters(QString filePath){
                 if(QString::compare(fields.at(0),"DG",Qt::CaseInsensitive) == 0){
                     dG = fields.at(1).toInt();
                 }
+                if(QString::compare(fields.at(0),"P1",Qt::CaseInsensitive) == 0){
+                    p1 = fields.at(1).toInt();
+                }
+                if(QString::compare(fields.at(0),"P2",Qt::CaseInsensitive) == 0){
+                    p2 = fields.at(1).toInt();
+                }
+                if(QString::compare(fields.at(0),"MD",Qt::CaseInsensitive) == 0){
+                    mD = fields.at(1).toInt();
+                }
+                if(QString::compare(fields.at(0),"MIN",Qt::CaseInsensitive) == 0){
+                    minR = fields.at(1).toInt();
+                }
+                if(QString::compare(fields.at(0),"MAX",Qt::CaseInsensitive) == 0){
+                    maxR = fields.at(1).toInt();
+                }
+                if(QString::compare(fields.at(0),"ST",Qt::CaseInsensitive) == 0){
+                    sT = fields.at(1).toInt();
+                }
                 if(QString::compare(fields.at(0),"ENDFILTER",Qt::CaseInsensitive) == 0){
                     ColorFilter cf(fName,minH,maxH,minS,maxS,minV,maxV,eS,eR,eD,dS,dR,dD,eG,dG);
+                    cf.setCannyThreshold(p1);
+                    cf.setCentersThreshold(p2);
+                    cf.setMinCenterDistance(mD);
+                    cf.setMinRadius(minR);
+                    cf.setmMxRadius(maxR);
+                    if(sT == 1) cf.setHoughActive(true);
+                    if(sT == 2) cf.setEdgeActive(true);
                     _filters.push_back(cf);
                     onItem = false;
                 }
                 if(QString::compare(fields.at(0),"END",Qt::CaseInsensitive) == 0){
                     endFilters = true;
                 }
+
             }
         }
 
@@ -219,13 +252,21 @@ void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
     ui->RepsSB_E->setValue(filter.get_erode().size());
     ui->RepsSB_D->setValue(filter.get_dilate().size());
 
-    qDebug() << "----Eroding Sizes----";
-    qDebug() << "Iterations: " << filter.get_erode().size();
-    for(int i = 0; i < filter.get_erode().size(); i++)
-        qDebug() << filter.get_erode()[i];
-
     ui->GeometryCB_E->setCurrentIndex(filter.get_erode_geometry());
     ui->GeometryCB_D->setCurrentIndex(filter.get_dilate_geometry());
+
+    // Object Detection and tracking
+    ui->cannySlider->setValue(filter.getCannyThreshold());
+    ui->cannySB->setValue(filter.getCannyThreshold());
+    ui->centersSlider->setValue(filter.getCentersThreshold());
+    ui->centersSB->setValue(filter.getCentersThreshold());
+    ui->minDistSlider->setValue(filter.getMinCenterDistance());
+    ui->minDistSB->setValue(filter.getMinCenterDistance());
+    ui->minRadSB->setValue(filter.getMinRadius());
+    ui->maxRadSB->setValue(filter.getMaxRadius());
+    if(filter.getEdgeActive()) ui->edgeRB->setChecked(true);
+    else if (filter.getHoughActive()) ui->circlesRB->setChecked(true);
+    else ui->disableRB->setChecked(true);
 }
 
 void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
@@ -454,7 +495,14 @@ void CalibrationWindow::on_SaveButton_clicked()
             stream << "DD:"     << (((filters->at(i).get_dilate()[0]-filters->at(i).get_dilate()[filters->at(i).get_dilate().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
             stream <<"\n";
             stream << "DG:"     << filters->at(i).get_dilate_geometry() << "\n";
-            stream <<  "ENDFILTER" << "\n";
+            stream << "P1:"      << filters->at(i).getCannyThreshold() << "\n";
+            stream << "P2:"      << filters->at(i).getCentersThreshold() << "\n";
+            stream << "MD:"      << filters->at(i).getMinCenterDistance() << "\n";
+            stream << "MIN:"     << filters->at(i).getMinRadius() << "\n";
+            stream << "MAX:"     << filters->at(i).getMaxRadius() << "\n";
+            stream << "ST:"      << ((filters->at(i).getHoughActive()) ? 1 : ((filters->at(i).getEdgeActive()) ? 2 : 0));
+            stream <<"\n";
+            stream << "ENDFILTER" << "\n";
         }
         stream <<  "END" << "\n";
 
@@ -489,7 +537,7 @@ void CalibrationWindow::on_DecreaseCHB_D_toggled(bool checked)
 void CalibrationWindow::on_DecreaseCHB_E_toggled(bool checked)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->recalc_dilate(ui->SizeSB_D->value(),ui->RepsSB_D->value(),checked);
+    cf->recalc_erode(ui->SizeSB_E->value(),ui->RepsSB_E->value(),checked);
 }
 
 void CalibrationWindow::on_GeometryCB_E_currentIndexChanged(int index)
@@ -514,57 +562,78 @@ void CalibrationWindow::on_cannySlider_valueChanged(int value)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
     cf->setCannyThreshold(value);
+    ui->cannySB->setValue(value);
 }
 
 void CalibrationWindow::on_centersSlider_valueChanged(int value)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
     cf->setCentersThreshold(value);
+    ui->centersSB->setValue(value);
 }
 
 void CalibrationWindow::on_minDistSlider_valueChanged(int value)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
     cf->setMinCenterDistance(value);
+    ui->minDistSB->setValue(value);
 }
 
 void CalibrationWindow::on_cannySB_valueChanged(int arg1)
 {
-    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-
+    ui->cannySlider->setValue(arg1);
 }
 
 void CalibrationWindow::on_centersSB_valueChanged(int arg1)
 {
-    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    ui->centersSlider->setValue(arg1);
 }
 
 void CalibrationWindow::on_minDistSB_valueChanged(int arg1)
 {
-    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    ui->minDistSlider->setValue(arg1);
 }
 
 void CalibrationWindow::on_minRadSB_valueChanged(int arg1)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->setMinRadius(arg1);
 }
 
 void CalibrationWindow::on_maxRadSB_valueChanged(int arg1)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->setmMxRadius(arg1);
 }
 
 void CalibrationWindow::on_edgeRB_toggled(bool checked)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->setEdgeActive(checked);
 }
 
 void CalibrationWindow::on_circlesRB_toggled(bool checked)
 {
-
+    ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
+    cf->setHoughActive(checked);
 }
 
 void CalibrationWindow::on_disableRB_toggled(bool checked)
 {
+    return;
+}
 
+void CalibrationWindow::on_playButton_clicked()
+{
+    ocvf->playVideo(true);
+}
+
+void CalibrationWindow::on_pauseButton_clicked()
+{
+    ocvf->playVideo(false);
+}
+
+void CalibrationWindow::on_nextFrameButton_clicked()
+{
+    ocvf->advanceFrame(true);
 }

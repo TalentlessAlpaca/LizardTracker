@@ -63,10 +63,13 @@ QString ColorFilter::get_name(){
 
 void ColorFilter::set_minVals(int mh, int ms, int mv){
     minVals = cv::Scalar(mh,ms,mv);
+
+    setfilterColor((minVals[0]+maxVals[0])/2,(minVals[1]+maxVals[1])/2,(minVals[2]+maxVals[2])/2);
 }
 
 void ColorFilter::set_maxVals(int mh, int ms, int mv){
     maxVals = cv::Scalar(mh,ms,mv);
+    setfilterColor((minVals[0]+maxVals[0])/2,(minVals[1]+maxVals[1])/2,(minVals[2]+maxVals[2])/2);
 }
 
 
@@ -74,12 +77,23 @@ void ColorFilter::recalc_erode(int size, int reps, bool dec){
     erode_size = std::vector<int>(reps,size);
     for(int i = 0; dec && (i<reps);i++)
         erode_size[i] = size-i;
+
+    qDebug() << "-- Erode --";
+
+    for(int i = 0; i < erode_size.size(); i++)
+        qDebug() << erode_size.at(i);
 }
 
 void ColorFilter::recalc_dilate(int size, int reps, bool dec){
     dilate_size = std::vector<int>(reps,size);
-    for(int i = 0; dec && (i<reps);i++)
+    for(int i = 0; dec && (i<reps);i++){
         dilate_size[i] = size-i;
+    }
+
+    qDebug() << "-- Dilate --";
+
+    for(int i = 0; i < dilate_size.size(); i++)
+        qDebug() << dilate_size.at(i);
 }
 
 int ColorFilter::get_erode_geometry(){

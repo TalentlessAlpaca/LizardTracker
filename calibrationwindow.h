@@ -101,6 +101,12 @@ private slots:
 
     void on_disableRB_toggled(bool checked);
 
+    void on_playButton_clicked();
+
+    void on_pauseButton_clicked();
+
+    void on_nextFrameButton_clicked();
+
 signals:
     void validate();
 

@@ -18,6 +18,8 @@ public:
     void closeStream();
     void activateFilter(bool state);
     void setActiveFilter(int filter);
+    void playVideo(bool val);
+    void advanceFrame(bool val);
 
 protected:
     void advance(int step) Q_DECL_OVERRIDE;
@@ -34,7 +36,7 @@ private:
     bool filteringActive = false;
 
     int containerHeight = 721;
-    int containerWidth = 561;
+    int containerWidth = 500;
 
     bool still = false;
     bool play = true;
@@ -44,6 +46,7 @@ private:
     QImage Mat2QImage(const cv::Mat3b &src);
 
     std::vector<cv::Vec3f> circles;
+    int fr = 0;
 
 };
 

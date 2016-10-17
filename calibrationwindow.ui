@@ -731,7 +731,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>100</y>
+     <y>130</y>
      <width>31</width>
      <height>22</height>
     </rect>
@@ -748,7 +748,7 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>130</y>
+     <y>160</y>
      <width>31</width>
      <height>22</height>
     </rect>
@@ -814,7 +814,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Hough Transform</string>
+    <string>Tracking Parameters</string>
    </property>
    <widget class="QSlider" name="cannySlider">
     <property name="geometry">
@@ -889,6 +889,9 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
     <property name="maximum">
      <number>200</number>
     </property>
@@ -905,6 +908,9 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
     <property name="maximum">
      <number>200</number>
     </property>
@@ -920,6 +926,9 @@
       <width>47</width>
       <height>23</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>100</number>
@@ -973,7 +982,7 @@
      <enum>Qt::RightToLeft</enum>
     </property>
     <property name="text">
-     <string>Preview Edge</string>
+     <string>Edges</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="circlesRB">
@@ -989,7 +998,7 @@
      <enum>Qt::RightToLeft</enum>
     </property>
     <property name="text">
-     <string>Find Circles</string>
+     <string>Hough</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="disableRB">
@@ -1080,13 +1089,30 @@
    <property name="geometry">
     <rect>
      <x>520</x>
-     <y>160</y>
+     <y>190</y>
      <width>31</width>
      <height>23</height>
     </rect>
    </property>
    <property name="maximum">
     <number>0</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="nextFrameButton">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>100</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/calibrationWindow/Data/forward.png</normaloff>:/calibrationWindow/Data/forward.png</iconset>
    </property>
   </widget>
  </widget>
