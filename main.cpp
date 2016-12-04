@@ -16,6 +16,13 @@ void printBuffer(Buffer<int> * inB);
 
 int main(int argc, char *argv[])
 {
+    Buffer <int> waka(10);
+    printBuffer(&waka);
+    for(int i = 0; i<2*waka.size(); i++){
+        waka.push_back(i+1);
+        printBuffer(&waka);
+    }
+
     std::vector<ColorFilter> *filters = new std::vector<ColorFilter>();
     QApplication a(argc, argv);
     //a.setWindowIcon(QIcon("./Data/icon.ico"));
