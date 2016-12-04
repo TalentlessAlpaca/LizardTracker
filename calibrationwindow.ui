@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>800</height>
+    <height>1000</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>820</x>
-     <y>770</y>
+     <y>960</y>
      <width>171</width>
      <height>32</height>
     </rect>
@@ -640,7 +640,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>770</y>
+     <y>960</y>
      <width>231</width>
      <height>22</height>
     </rect>
@@ -650,7 +650,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>770</y>
+     <y>960</y>
      <width>80</width>
      <height>22</height>
     </rect>
@@ -689,7 +689,7 @@
      <x>10</x>
      <y>40</y>
      <width>500</width>
-     <height>721</height>
+     <height>888</height>
     </rect>
    </property>
   </widget>
@@ -1113,6 +1113,25 @@
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/calibrationWindow/Data/forward.png</normaloff>:/calibrationWindow/Data/forward.png</iconset>
+   </property>
+  </widget>
+  <widget class="QSlider" name="horizontalSlider">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>930</y>
+     <width>501</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>20</number>
+   </property>
+   <property name="value">
+    <number>10</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
    </property>
   </widget>
  </widget>

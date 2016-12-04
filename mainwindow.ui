@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1200</width>
-    <height>800</height>
+    <height>1000</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,27 +44,30 @@
       <normaloff>:/mainWindow/Data/property.png</normaloff>:/mainWindow/Data/property.png</iconset>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QGraphicsView" name="CurrenFrame">
     <property name="geometry">
      <rect>
       <x>15</x>
       <y>10</y>
       <width>500</width>
-      <height>721</height>
+      <height>888</height>
      </rect>
     </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView_2">
+   <widget class="QGraphicsView" name="ProcessedInformation">
     <property name="geometry">
      <rect>
       <x>685</x>
       <y>10</y>
       <width>500</width>
-      <height>721</height>
+      <height>888</height>
      </rect>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="filterList">
     <property name="geometry">
      <rect>
       <x>520</x>

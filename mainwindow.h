@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsSceneMouseEvent>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -35,47 +36,19 @@ private slots:
     void cancelFilters();
 
 private:
+  // Variables
     Ui::MainWindow *ui;
-    // Window names
-    cv::String inputImage = "input";
-    cv::String outputImage = "output";
-    // Working Frames
-    cv::Mat inputFrame;
-    cv::Mat outputFrame;
-    cv::Mat erodeElement;
-    cv::Mat dilateElement;
-    // Filter Parameters
-    int minHueVal = 0;
-    int maxHueVal = 255;
-    int minSatVal = 0;
-    int maxSatVal = 255;
-    int minValVal = 0;
-    int maxValVal = 255;
-    // Erode Dilate Parameters
-    int erodeSize  = 1;
-    int erodeGeom  = 2;
-    int erodeReps  = 1;
-    int dilateSize = 1;
-    int dilateGeom = 2;
-    int dilateReps = 1;
-    // Tracking Parameters
-    int trackGeometry = 0;
-    int hc_p1 = 100;
-    int hc_p2 = 20;
-    std::vector<cv::Vec3f> detectedObjects;
-    int cannyThresold = 10;
-    int kerSize = 3;
-    // Enabled Options
-    bool hsvEnabled         = false;
-    bool erodeDilateEnabled = false;
-    bool trackEnabled       = false;
-    void drawCirle(cv::Mat &frame,cv::Point pos, int radious);
-    void drawSquare(cv::Mat &frame,cv::Point p1, cv::Point p2);
-    QLinkedList<QString> trackData;
-    unsigned int frameNo = 0;
     QElapsedTimer timer;
     std::vector<ColorFilter> *filters;
     CalibrationWindow *calibration;
+    std::vector<cv::Vec3f> circlesA;
+    std::vector<cv::Vec3f> circlesB;
+    bool cicle = false;
+
+    QGraphicsSceneMouseEvent inScene;
+    QGraphicsSceneMouseEvent outScene;
+  // Functions
+    void updateFilterList();
 };
 
 #endif // MAINWINDOW_H

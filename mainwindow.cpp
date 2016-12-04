@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -15,6 +16,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::iniFilters(std::vector<ColorFilter> *inFilters){
     filters = inFilters;
+    updateFilterList();
 }
 
 void MainWindow::on_calibration_Button_clicked()
@@ -36,9 +38,20 @@ void MainWindow::setFilters(){
     }
     calibration->onExit();
     delete calibration;
+    updateFilterList();
 }
 
 void MainWindow::cancelFilters(){
     calibration->onExit();
+    qDebug() << "Filters Configuration Dismissed";
     delete calibration;
+}
+
+
+void MainWindow::updateFilterList(){
+    ui->filterList->clear();
+    for(int i = 0; i < filters->size(); i++){
+        ui->filterList->addItem(filters->at(i).get_name());
+        qDebug() << filters->at(i).get_name();
+    }
 }

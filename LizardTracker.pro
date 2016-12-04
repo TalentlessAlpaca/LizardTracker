@@ -19,7 +19,8 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     calibrationwindow.h \
     colorfilter.h \
-    ocvframe.h
+    ocvframe.h \
+    buffer.h
 
 FORMS    += mainwindow.ui \
     calibrationwindow.ui

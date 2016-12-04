@@ -158,7 +158,7 @@ void OcvFrame::advance(int step)
             int radius = cvRound(circles[i][2]);
             // circle center
             //cv::Scalar fColor((double)(cf->getfilterColor().blue()),(double)(cf->getfilterColor().green()),(double)(cf->getfilterColor().red()));
-            cv::Scalar fColor((cf->getfilterColor().blue()),(cf->getfilterColor().green()),(cf->getfilterColor().red()));
+            cv::Scalar fColor(255-(cf->getfilterColor().blue()),255-(cf->getfilterColor().green()),255-(cf->getfilterColor().red()));
             qDebug() << "Circle of color " << fColor[0] << fColor[1] << fColor[2] << "and radius " << radius;
             circle( displayFrame, center, 3, fColor, -1, 8, 0 );
             // circle outline
