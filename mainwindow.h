@@ -27,13 +27,13 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void iniFilters(std::vector<ColorFilter> * inFilters);
+    void initialize_filters(std::vector<ColorFilter> * inFilters);
     ~MainWindow();
 
 private slots:
     void on_calibration_Button_clicked();
-    void setFilters();
-    void cancelFilters();
+    void set_filters();
+    void cancel_filters();
 
 private:
   // Variables
@@ -48,7 +48,7 @@ private:
     QGraphicsSceneMouseEvent inScene;
     QGraphicsSceneMouseEvent outScene;
   // Functions
-    void updateFilterList();
+    void update_filter_list();
 };
 
 #endif // MAINWINDOW_H

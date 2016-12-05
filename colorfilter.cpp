@@ -4,8 +4,8 @@ ColorFilter::ColorFilter()
 {
     erode_size = std::vector<int>(3,3);
     dilate_size = std::vector<int>(3,3);
-    minVals = cv::Scalar(0,0,0);
-    maxVals = cv::Scalar(255,255,255);
+    min_vals = cv::Scalar(0,0,0);
+    max_vals = cv::Scalar(255,255,255);
 }
 
 ColorFilter::ColorFilter(QString fName, int minH, int maxH, int minS, int maxS, int minV, int maxV, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec, int eGeo, int dGeo){
@@ -16,26 +16,26 @@ ColorFilter::ColorFilter(QString fName, int minH, int maxH, int minS, int maxS, 
     dilate_size = std::vector<int>(dReps,dSize);
     for(int i=0; dDec && (i<dReps); i++) dilate_size[i] = dSize-i;
 
-    minVals = cv::Scalar(minH,minS,minV);
-    maxVals = cv::Scalar(maxH,maxS,maxV);
+    min_vals = cv::Scalar(minH,minS,minV);
+    max_vals = cv::Scalar(maxH,maxS,maxV);
 
-    filterName = fName;
+    filter_name = fName;
 
     erode_geometry = eGeo;
     dilate_geometry = dGeo;
 }
 
-ColorFilter::ColorFilter(QString fName, cv::Scalar _minVals, cv::Scalar _maxVals, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec, int eGeo, int dGeo){
+ColorFilter::ColorFilter(QString fName, cv::Scalar _min_vals, cv::Scalar _max_vals, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec, int eGeo, int dGeo){
     erode_size = std::vector<int>(eReps,eSize);
     for(int i=0; eDec && (i<eReps); i++) erode_size[i] = eSize-i;
 
     dilate_size = std::vector<int>(dReps,dSize);
     for(int i=0; dDec && (i<dReps); i++) dilate_size[i] = dSize-i;;
 
-    minVals = cv::Scalar(_minVals[0],_minVals[1],_minVals[1]);
-    maxVals = cv::Scalar(_maxVals[0],_maxVals[1],_maxVals[1]);
+    min_vals = cv::Scalar(_min_vals[0],_min_vals[1],_min_vals[1]);
+    max_vals = cv::Scalar(_max_vals[0],_max_vals[1],_max_vals[1]);
 
-    filterName = fName;
+    filter_name = fName;
 
     erode_geometry = eGeo;
     dilate_geometry = dGeo;
@@ -49,27 +49,27 @@ std::vector<int> ColorFilter::get_dilate(){
     return dilate_size;
 }
 
-cv::Scalar ColorFilter::get_minVals(){
-    return minVals;
+cv::Scalar ColorFilter::get_min_vals(){
+    return min_vals;
 }
 
-cv::Scalar ColorFilter::get_maxVals(){
-    return maxVals;
+cv::Scalar ColorFilter::get_max_vals(){
+    return max_vals;
 }
 
 QString ColorFilter::get_name(){
-    return filterName;
+    return filter_name;
 }
 
-void ColorFilter::set_minVals(int mh, int ms, int mv){
-    minVals = cv::Scalar(mh,ms,mv);
+void ColorFilter::set_min_vals(int mh, int ms, int mv){
+    min_vals = cv::Scalar(mh,ms,mv);
 
-    setfilterColor((minVals[0]+maxVals[0])/2,(minVals[1]+maxVals[1])/2,(minVals[2]+maxVals[2])/2);
+    set_filter_color((min_vals[0]+max_vals[0])/2,(min_vals[1]+max_vals[1])/2,(min_vals[2]+max_vals[2])/2);
 }
 
-void ColorFilter::set_maxVals(int mh, int ms, int mv){
-    maxVals = cv::Scalar(mh,ms,mv);
-    setfilterColor((minVals[0]+maxVals[0])/2,(minVals[1]+maxVals[1])/2,(minVals[2]+maxVals[2])/2);
+void ColorFilter::set_max_vals(int mh, int ms, int mv){
+    max_vals = cv::Scalar(mh,ms,mv);
+    set_filter_color((min_vals[0]+max_vals[0])/2,(min_vals[1]+max_vals[1])/2,(min_vals[2]+max_vals[2])/2);
 }
 
 
@@ -112,66 +112,66 @@ void ColorFilter::set_dilate_geometry(int id){
     dilate_geometry = id;
 }
 
-bool ColorFilter::getHoughActive(){
-    return houghActive;
+bool ColorFilter::get_hough_active(){
+    return hough_active;
 }
 
-void ColorFilter::setHoughActive(bool state){
-    houghActive = state;
+void ColorFilter::set_hough_active(bool state){
+    hough_active = state;
 }
 
-bool ColorFilter::getEdgeActive(){
-    return edgeActive;
+bool ColorFilter::get_edge_active(){
+    return edge_active;
 }
 
-void ColorFilter::setEdgeActive(bool state){
-    edgeActive = state;
+void ColorFilter::set_edge_active(bool state){
+    edge_active = state;
 }
 
-int ColorFilter::getCannyThreshold(){
-    return cannyThreshold;
+int ColorFilter::get_canny_threshold(){
+    return canny_threshold;
 }
 
-void ColorFilter::setCannyThreshold(int val){
-    cannyThreshold = val;
+void ColorFilter::set_canny_threshold(int val){
+    canny_threshold = val;
 }
 
-int ColorFilter::getCentersThreshold(){
-    return centersThreshold;
+int ColorFilter::get_centers_threshold(){
+    return centers_threshold;
 }
 
-void ColorFilter::setCentersThreshold(int val){
-    centersThreshold = val;
+void ColorFilter::set_centers_threshold(int val){
+    centers_threshold = val;
 }
 
-int ColorFilter::getMinCenterDistance(){
-    return minCenterDistance;
+int ColorFilter::get_min_center_distance(){
+    return min_center_distance;
 }
 
-void ColorFilter::setMinCenterDistance(int val){
-    minCenterDistance = val;
+void ColorFilter::set_min_center_distance(int val){
+    min_center_distance = val;
 }
 
-int ColorFilter::getMinRadius(){
-    return minRadius;
+int ColorFilter::get_min_radius(){
+    return min_radius;
 }
 
-void ColorFilter::setMinRadius(int val){
-    minRadius = val;
+void ColorFilter::set_min_radius(int val){
+    min_radius = val;
 }
 
-int ColorFilter::getMaxRadius(){
-    return maxRadius;
+int ColorFilter::get_max_radius(){
+    return max_radius;
 }
 
-void ColorFilter::setmMxRadius(int val){
-    maxRadius = val;
+void ColorFilter::set_max_radius(int val){
+    max_radius = val;
 }
 
-QColor ColorFilter::getfilterColor(){
-    return filterColor;
+QColor ColorFilter::get_filter_color(){
+    return filter_color;
 }
 
-void ColorFilter::setfilterColor(int h, int s, int v){
-    filterColor.setHsv(h,s,v);
+void ColorFilter::set_filter_color(int h, int s, int v){
+    filter_color.setHsv(h,s,v);
 }

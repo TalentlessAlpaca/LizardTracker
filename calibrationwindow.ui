@@ -1098,7 +1098,7 @@
     <number>0</number>
    </property>
   </widget>
-  <widget class="QPushButton" name="nextFrameButton">
+  <widget class="QPushButton" name="next_frameButton">
    <property name="geometry">
     <rect>
      <x>520</x>

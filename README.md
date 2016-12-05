@@ -2,7 +2,7 @@
 Let's track the shit out of those Riamas
 
 #TO DO
-* Standarize function names and syntax (every function with foo_bar nomenclature, instead of fooBar)
+* ~~Standarize function names and syntax (every function with foo_bar nomenclature, instead of fooBar)~~
 * Implement Buffered Video
 * Document Classes and Functions
 * Reproduce Movements in the second view

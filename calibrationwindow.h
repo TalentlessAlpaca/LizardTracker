@@ -28,7 +28,7 @@ public:
     explicit CalibrationWindow(QWidget *parent = 0,std::vector<ColorFilter> *inFilters = NULL, QString filterPath = "Data/defaultFilters.csv");
     explicit CalibrationWindow(QWidget *parent, QString filterPath, QString videoPath,bool still);
     ~CalibrationWindow();
-    std::vector<ColorFilter> *getFilters();
+    std::vector<ColorFilter> *get_filters();
     void onExit();
 
 private slots:
@@ -105,7 +105,7 @@ private slots:
 
     void on_pauseButton_clicked();
 
-    void on_nextFrameButton_clicked();
+    void on_next_frameButton_clicked();
 
 signals:
     void validate();
@@ -113,8 +113,8 @@ signals:
 private:
     Ui::CalibrationWindow *ui;
     std::vector<ColorFilter> *filters;
-    void loadFilters(QString filePath);
-    void loadCurrentFilter(ColorFilter filter);
+    void load_filters(QString filePath);
+    void load_current_filter(ColorFilter filter);
     QGraphicsScene frame;
     OcvFrame *ocvf;
     QTimer timer;

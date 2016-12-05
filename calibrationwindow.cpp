@@ -9,7 +9,7 @@ CalibrationWindow::CalibrationWindow(QWidget *parent, std::vector<ColorFilter> *
 
     filters = inFilters;
     ocvf = new OcvFrame(filters);
-    loadFilters(filterPath);
+    load_filters(filterPath);
     //frame = new QGraphicsScene(0,0,321,581,this);
     frame.setSceneRect(0,0,300,533);
     frame.setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -31,7 +31,7 @@ CalibrationWindow::CalibrationWindow(QWidget *parent, QString filterPath, QStrin
 {
     ui->setupUi(this);
 
-    loadFilters(filterPath);
+    load_filters(filterPath);
     //frame = new QGraphicsScene(0,0,321,581,this);
     frame.setSceneRect(0,0,300,533);
     frame.setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -71,7 +71,7 @@ CalibrationWindow::~CalibrationWindow()
     delete ui;
 }
 
-void CalibrationWindow::loadFilters(QString filePath){
+void CalibrationWindow::load_filters(QString filePath){
     ui->FiltersList->clear();
     filters->clear();
     qDebug() << "List & Vector Cleared";
@@ -191,13 +191,13 @@ void CalibrationWindow::loadFilters(QString filePath){
                 }
                 if(QString::compare(fields.at(0),"ENDFILTER",Qt::CaseInsensitive) == 0){
                     ColorFilter cf(fName,minH,maxH,minS,maxS,minV,maxV,eS,eR,eD,dS,dR,dD,eG,dG);
-                    cf.setCannyThreshold(p1);
-                    cf.setCentersThreshold(p2);
-                    cf.setMinCenterDistance(mD);
-                    cf.setMinRadius(minR);
-                    cf.setmMxRadius(maxR);
-                    if(sT == 1) cf.setHoughActive(true);
-                    if(sT == 2) cf.setEdgeActive(true);
+                    cf.set_canny_threshold(p1);
+                    cf.set_centers_threshold(p2);
+                    cf.set_min_center_distance(mD);
+                    cf.set_min_radius(minR);
+                    cf.set_max_radius(maxR);
+                    if(sT == 1) cf.set_hough_active(true);
+                    if(sT == 2) cf.set_edge_active(true);
                     _filters.push_back(cf);
                     onItem = false;
                 }
@@ -221,26 +221,26 @@ void CalibrationWindow::loadFilters(QString filePath){
     }
     ui->FiltersList->setCurrentRow(0);
     // Update Controls
-    //loadCurrentFilter(filters[0]);
+    //load_current_filter(filters[0]);
 }
 
-void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
+void CalibrationWindow::load_current_filter(ColorFilter filter){
     // Update Sliders
-    ui->minVS_H->setValue(filter.get_minVals()[0]);
-    ui->minVS_S->setValue(filter.get_minVals()[1]);
-    ui->minVS_V->setValue(filter.get_minVals()[2]);
+    ui->minVS_H->setValue(filter.get_min_vals()[0]);
+    ui->minVS_S->setValue(filter.get_min_vals()[1]);
+    ui->minVS_V->setValue(filter.get_min_vals()[2]);
 
-    ui->maxVS_H->setValue(filter.get_maxVals()[0]);
-    ui->maxVS_S->setValue(filter.get_maxVals()[1]);
-    ui->maxVS_V->setValue(filter.get_maxVals()[2]);
+    ui->maxVS_H->setValue(filter.get_max_vals()[0]);
+    ui->maxVS_S->setValue(filter.get_max_vals()[1]);
+    ui->maxVS_V->setValue(filter.get_max_vals()[2]);
 
-    ui->minSB_H->setValue(filter.get_minVals()[0]);
-    ui->minSB_S->setValue(filter.get_minVals()[1]);
-    ui->minSB_V->setValue(filter.get_minVals()[2]);
+    ui->minSB_H->setValue(filter.get_min_vals()[0]);
+    ui->minSB_S->setValue(filter.get_min_vals()[1]);
+    ui->minSB_V->setValue(filter.get_min_vals()[2]);
 
-    ui->maxSB_H->setValue(filter.get_maxVals()[0]);
-    ui->maxSB_S->setValue(filter.get_maxVals()[1]);
-    ui->maxSB_V->setValue(filter.get_maxVals()[2]);
+    ui->maxSB_H->setValue(filter.get_max_vals()[0]);
+    ui->maxSB_S->setValue(filter.get_max_vals()[1]);
+    ui->maxSB_V->setValue(filter.get_max_vals()[2]);
     // Update Erode & Dilate
     if((filter.get_erode()[0]-filter.get_erode()[filter.get_erode().size()-1])!= 0)   ui->DecreaseCHB_E->setChecked(true);
     else    ui->DecreaseCHB_E->setChecked(false);
@@ -256,16 +256,16 @@ void CalibrationWindow::loadCurrentFilter(ColorFilter filter){
     ui->GeometryCB_D->setCurrentIndex(filter.get_dilate_geometry());
 
     // Object Detection and tracking
-    ui->cannySlider->setValue(filter.getCannyThreshold());
-    ui->cannySB->setValue(filter.getCannyThreshold());
-    ui->centersSlider->setValue(filter.getCentersThreshold());
-    ui->centersSB->setValue(filter.getCentersThreshold());
-    ui->minDistSlider->setValue(filter.getMinCenterDistance());
-    ui->minDistSB->setValue(filter.getMinCenterDistance());
-    ui->minRadSB->setValue(filter.getMinRadius());
-    ui->maxRadSB->setValue(filter.getMaxRadius());
-    if(filter.getEdgeActive()) ui->edgeRB->setChecked(true);
-    else if (filter.getHoughActive()) ui->circlesRB->setChecked(true);
+    ui->cannySlider->setValue(filter.get_canny_threshold());
+    ui->cannySB->setValue(filter.get_canny_threshold());
+    ui->centersSlider->setValue(filter.get_centers_threshold());
+    ui->centersSB->setValue(filter.get_centers_threshold());
+    ui->minDistSlider->setValue(filter.get_min_center_distance());
+    ui->minDistSB->setValue(filter.get_min_center_distance());
+    ui->minRadSB->setValue(filter.get_min_radius());
+    ui->maxRadSB->setValue(filter.get_max_radius());
+    if(filter.get_edge_active()) ui->edgeRB->setChecked(true);
+    else if (filter.get_hough_active()) ui->circlesRB->setChecked(true);
     else ui->disableRB->setChecked(true);
 }
 
@@ -273,8 +273,8 @@ void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
 {
     qDebug() << "Row Changed to:" << currentRow;
     if(currentRow < 0){
-        ocvf->activateFilter(false);
-        ocvf->setActiveFilter(-1);
+        ocvf->activate_filter(false);
+        ocvf->set_active_filter(-1);
         ui->ClearButton->setEnabled(false);
         ui->DeleteButton->setEnabled(false);
         ui->minSB_H->setEnabled(false);
@@ -299,10 +299,10 @@ void CalibrationWindow::on_FiltersList_currentRowChanged(int currentRow)
         ui->DecreaseCHB_E->setEnabled(false);
     }
     else{
-        loadCurrentFilter(filters->at(currentRow));
-        ocvf->activateFilter(ui->applyCB->isChecked());
+        load_current_filter(filters->at(currentRow));
+        ocvf->activate_filter(ui->applyCB->isChecked());
         int filt = (ui->comboBox->currentIndex()==0) ? -1:currentRow;
-        ocvf->setActiveFilter(filt);
+        ocvf->set_active_filter(filt);
         ui->ClearButton->setEnabled(true);
         ui->DeleteButton->setEnabled(true);
         ui->minSB_H->setEnabled(true);
@@ -333,7 +333,7 @@ void CalibrationWindow::on_minVS_H_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_H->setValue(value);
     // Change Value in filter
-    filters->at(ui->FiltersList->currentRow()).set_minVals(value,ui->minVS_S->value(),ui->minVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_min_vals(value,ui->minVS_S->value(),ui->minVS_V->value());
 }
 
 void CalibrationWindow::on_minVS_S_valueChanged(int value)
@@ -341,7 +341,7 @@ void CalibrationWindow::on_minVS_S_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_S->setValue(value);
     // Change Value in filter
-    filters->at(ui->FiltersList->currentRow()).set_minVals(ui->minVS_H->value(),value,ui->minVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_min_vals(ui->minVS_H->value(),value,ui->minVS_V->value());
 }
 
 void CalibrationWindow::on_minVS_V_valueChanged(int value)
@@ -349,7 +349,7 @@ void CalibrationWindow::on_minVS_V_valueChanged(int value)
     // Change Value in SpinBox
     ui->minSB_V->setValue(value);
     // Change Value in filter
-    filters->at(ui->FiltersList->currentRow()).set_minVals(ui->minVS_H->value(),ui->minVS_S->value(),value);
+    filters->at(ui->FiltersList->currentRow()).set_min_vals(ui->minVS_H->value(),ui->minVS_S->value(),value);
 }
 
 void CalibrationWindow::on_maxVS_H_valueChanged(int value)
@@ -357,7 +357,7 @@ void CalibrationWindow::on_maxVS_H_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_H->setValue(value);
     // Change Value in filter
-    filters->at(ui->FiltersList->currentRow()).set_maxVals(value,ui->maxVS_S->value(),ui->maxVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_max_vals(value,ui->maxVS_S->value(),ui->maxVS_V->value());
 }
 
 void CalibrationWindow::on_maxVS_S_valueChanged(int value)
@@ -365,7 +365,7 @@ void CalibrationWindow::on_maxVS_S_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_S->setValue(value);
     // Change Value in filter
-    filters->at(ui->FiltersList->currentRow()).set_maxVals(ui->maxVS_H->value(),value,ui->maxVS_V->value());
+    filters->at(ui->FiltersList->currentRow()).set_max_vals(ui->maxVS_H->value(),value,ui->maxVS_V->value());
 }
 
 void CalibrationWindow::on_maxVS_V_valueChanged(int value)
@@ -373,7 +373,7 @@ void CalibrationWindow::on_maxVS_V_valueChanged(int value)
     // Change Value in SpinBox
     ui->maxSB_V->setValue(value);
     // Change Value in filter
-    filters->at(ui->FiltersList->currentRow()).set_maxVals(ui->maxVS_H->value(),ui->maxVS_S->value(),value);
+    filters->at(ui->FiltersList->currentRow()).set_max_vals(ui->maxVS_H->value(),ui->maxVS_S->value(),value);
 }
 
 
@@ -411,10 +411,10 @@ void CalibrationWindow::on_LoadFileButton_clicked()
 {
     QString filepath = QFileDialog::getOpenFileName(this,tr("Open Filter File"),"./Data/","All Files (*.*);;Text File (*.txt)");
     qDebug() << filepath;
-    loadFilters(filepath);
+    load_filters(filepath);
 }
 
-std::vector<ColorFilter> *CalibrationWindow::getFilters(){
+std::vector<ColorFilter> *CalibrationWindow::get_filters(){
     return filters;
 }
 
@@ -482,9 +482,9 @@ void CalibrationWindow::on_SaveButton_clicked()
         stream << "#" <<dt.toString() << "\n";
         for(int i=0; i<filters->size();i++){
             stream << "NAME:"   << filters->at(i).get_name() << "\n";
-            stream << "HUE:"    << filters->at(i).get_minVals()[0] << "," << filters->at(i).get_maxVals()[0] <<"\n";
-            stream << "SAT:"    << filters->at(i).get_minVals()[1] << "," << filters->at(i).get_maxVals()[1] <<"\n";
-            stream << "VAL:"    << filters->at(i).get_minVals()[2] << "," << filters->at(i).get_maxVals()[2] <<"\n";
+            stream << "HUE:"    << filters->at(i).get_min_vals()[0] << "," << filters->at(i).get_max_vals()[0] <<"\n";
+            stream << "SAT:"    << filters->at(i).get_min_vals()[1] << "," << filters->at(i).get_max_vals()[1] <<"\n";
+            stream << "VAL:"    << filters->at(i).get_min_vals()[2] << "," << filters->at(i).get_max_vals()[2] <<"\n";
             stream << "ES:"     << filters->at(i).get_erode()[0] << "\n";
             stream << "ER:"     << filters->at(i).get_erode().size() << "\n";
             stream << "ED:"     << (((filters->at(i).get_erode()[0]-filters->at(i).get_erode()[filters->at(i).get_erode().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
@@ -495,12 +495,12 @@ void CalibrationWindow::on_SaveButton_clicked()
             stream << "DD:"     << (((filters->at(i).get_dilate()[0]-filters->at(i).get_dilate()[filters->at(i).get_dilate().size()])!=0)?QString::fromUtf8("TRUE"):QString::fromUtf8("FALSE"));
             stream <<"\n";
             stream << "DG:"     << filters->at(i).get_dilate_geometry() << "\n";
-            stream << "P1:"      << filters->at(i).getCannyThreshold() << "\n";
-            stream << "P2:"      << filters->at(i).getCentersThreshold() << "\n";
-            stream << "MD:"      << filters->at(i).getMinCenterDistance() << "\n";
-            stream << "MIN:"     << filters->at(i).getMinRadius() << "\n";
-            stream << "MAX:"     << filters->at(i).getMaxRadius() << "\n";
-            stream << "ST:"      << ((filters->at(i).getHoughActive()) ? 1 : ((filters->at(i).getEdgeActive()) ? 2 : 0));
+            stream << "P1:"      << filters->at(i).get_canny_threshold() << "\n";
+            stream << "P2:"      << filters->at(i).get_centers_threshold() << "\n";
+            stream << "MD:"      << filters->at(i).get_min_center_distance() << "\n";
+            stream << "MIN:"     << filters->at(i).get_min_radius() << "\n";
+            stream << "MAX:"     << filters->at(i).get_max_radius() << "\n";
+            stream << "ST:"      << ((filters->at(i).get_hough_active()) ? 1 : ((filters->at(i).get_edge_active()) ? 2 : 0));
             stream <<"\n";
             stream << "ENDFILTER" << "\n";
         }
@@ -517,15 +517,15 @@ void CalibrationWindow::on_ClearButton_clicked()
 }
 
 void CalibrationWindow::onExit(){
-    ocvf->closeStream();
+    ocvf->close_stream();
     delete ocvf;
 }
 
 
 void CalibrationWindow::on_comboBox_currentIndexChanged(int index)
 {
-    if(index>0) ocvf->setActiveFilter(ui->FiltersList->currentRow());
-    else ocvf->setActiveFilter(-1);
+    if(index>0) ocvf->set_active_filter(ui->FiltersList->currentRow());
+    else ocvf->set_active_filter(-1);
 }
 
 void CalibrationWindow::on_DecreaseCHB_D_toggled(bool checked)
@@ -554,28 +554,28 @@ void CalibrationWindow::on_GeometryCB_D_currentIndexChanged(int index)
 
 void CalibrationWindow::on_applyCB_toggled(bool checked)
 {
-    ocvf->activateFilter(checked);
+    ocvf->activate_filter(checked);
     ui->comboBox->setEnabled(checked);
 }
 
 void CalibrationWindow::on_cannySlider_valueChanged(int value)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->setCannyThreshold(value);
+    cf->set_canny_threshold(value);
     ui->cannySB->setValue(value);
 }
 
 void CalibrationWindow::on_centersSlider_valueChanged(int value)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->setCentersThreshold(value);
+    cf->set_centers_threshold(value);
     ui->centersSB->setValue(value);
 }
 
 void CalibrationWindow::on_minDistSlider_valueChanged(int value)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->setMinCenterDistance(value);
+    cf->set_min_center_distance(value);
     ui->minDistSB->setValue(value);
 }
 
@@ -597,25 +597,25 @@ void CalibrationWindow::on_minDistSB_valueChanged(int arg1)
 void CalibrationWindow::on_minRadSB_valueChanged(int arg1)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->setMinRadius(arg1);
+    cf->set_min_radius(arg1);
 }
 
 void CalibrationWindow::on_maxRadSB_valueChanged(int arg1)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->setmMxRadius(arg1);
+    cf->set_max_radius(arg1);
 }
 
 void CalibrationWindow::on_edgeRB_toggled(bool checked)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->setEdgeActive(checked);
+    cf->set_edge_active(checked);
 }
 
 void CalibrationWindow::on_circlesRB_toggled(bool checked)
 {
     ColorFilter *cf = &filters->at(ui->FiltersList->currentRow());
-    cf->setHoughActive(checked);
+    cf->set_hough_active(checked);
 }
 
 void CalibrationWindow::on_disableRB_toggled(bool checked)
@@ -625,15 +625,15 @@ void CalibrationWindow::on_disableRB_toggled(bool checked)
 
 void CalibrationWindow::on_playButton_clicked()
 {
-    ocvf->playVideo(true);
+    ocvf->play_video(true);
 }
 
 void CalibrationWindow::on_pauseButton_clicked()
 {
-    ocvf->playVideo(false);
+    ocvf->play_video(false);
 }
 
-void CalibrationWindow::on_nextFrameButton_clicked()
+void CalibrationWindow::on_next_frameButton_clicked()
 {
-    ocvf->advanceFrame(true);
+    ocvf->advance_frame(true);
 }

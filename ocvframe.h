@@ -15,35 +15,35 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) Q_DECL_OVERRIDE;
-    void closeStream();
-    void activateFilter(bool state);
-    void setActiveFilter(int filter);
-    void playVideo(bool val);
-    void advanceFrame(bool val);
+    void close_stream();
+    void activate_filter(bool state);
+    void set_active_filter(int filter);
+    void play_video(bool val);
+    void advance_frame(bool val);
 
 protected:
     void advance(int step) Q_DECL_OVERRIDE;
 
 private:
-    cv::VideoCapture videoStream;
-    cv::Mat currentFrame;
-    cv::Mat intermediateFrame_A;
-    cv::Mat intermediateFrame_B;
-    cv::Mat displayFrame;
-    QImage displayImage;
+    cv::VideoCapture video_stream;
+    cv::Mat current_frame;
+    cv::Mat intermediate_frame_A;
+    cv::Mat intermediate_frame_B;
+    cv::Mat display_frame;
+    QImage display_image;
     std::vector<ColorFilter> *filters;
-    int activeFilter = -1;
-    bool filteringActive = false;
+    int active_filter = -1;
+    bool filtering_active = false;
 
-    int containerHeight = 721;
-    int containerWidth = 500;
+    int container_height = 721;
+    int container_width = 500;
 
     bool still = false;
     bool play = true;
     bool replay = true;
-    bool nextFrame = false;
+    bool next_frame = false;
 
-    QImage Mat2QImage(const cv::Mat3b &src);
+    QImage Mat_to_QImage(const cv::Mat3b &src);
 
     std::vector<cv::Vec3f> circles;
     int fr = 0;

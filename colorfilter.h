@@ -13,13 +13,13 @@ class ColorFilter
 public:
     ColorFilter();
     ColorFilter(QString fName,int minH, int maxH, int minS, int maxS, int minV, int maxV, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec, int eGeo, int dGeo);
-    ColorFilter(QString fName,cv::Scalar _minVals, cv::Scalar _maxVals, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec, int eGeo, int dGeo);
+    ColorFilter(QString fName,cv::Scalar _min_vals, cv::Scalar _max_vals, int eSize, int eReps, bool eDec, int dSize, int dReps, bool dDec, int eGeo, int dGeo);
     std::vector<int> get_erode();
     std::vector<int> get_dilate();
-    cv::Scalar get_minVals();
-    cv::Scalar get_maxVals();
-    void set_minVals(int mh, int ms, int mv);
-    void set_maxVals(int mh, int ms, int mv);
+    cv::Scalar get_min_vals();
+    cv::Scalar get_max_vals();
+    void set_min_vals(int mh, int ms, int mv);
+    void set_max_vals(int mh, int ms, int mv);
     QString get_name();
     void recalc_erode(int size, int reps, bool dec);
     void recalc_dilate(int size, int reps, bool dec);
@@ -30,29 +30,29 @@ public:
     void set_erode_geometry(int id);
     void set_dilate_geometry(int id);
 
-    bool getHoughActive();
-    void setHoughActive(bool state);
+    bool get_hough_active();
+    void set_hough_active(bool state);
 
-    bool getEdgeActive();
-    void setEdgeActive(bool state);
+    bool get_edge_active();
+    void set_edge_active(bool state);
 
-    int getCannyThreshold();
-    void setCannyThreshold(int val);
+    int get_canny_threshold();
+    void set_canny_threshold(int val);
 
-    int getCentersThreshold();
-    void setCentersThreshold(int val);
+    int get_centers_threshold();
+    void set_centers_threshold(int val);
 
-    int getMinCenterDistance();
-    void setMinCenterDistance(int val);
+    int get_min_center_distance();
+    void set_min_center_distance(int val);
 
-    int getMinRadius();
-    void setMinRadius(int val);
+    int get_min_radius();
+    void set_min_radius(int val);
 
-    int getMaxRadius();
-    void setmMxRadius(int val);
+    int get_max_radius();
+    void set_max_radius(int val);
 
-    QColor getfilterColor();
-    void setfilterColor(int h, int s, int v);
+    QColor get_filter_color();
+    void set_filter_color(int h, int s, int v);
 
 private:
     std::vector<int> erode_size;
@@ -60,20 +60,20 @@ private:
     int erode_geometry = cv::MORPH_ELLIPSE;
     int dilate_geometry = cv::MORPH_ELLIPSE;
 
-    cv::Scalar minVals;
-    cv::Scalar maxVals;
+    cv::Scalar min_vals;
+    cv::Scalar max_vals;
 
-    QString filterName;
+    QString filter_name;
 
-    bool houghActive = false;
-    bool edgeActive = false;
-    int cannyThreshold = 100;
-    int centersThreshold = 20;
-    int minCenterDistance = 5;
-    int minRadius = 2;
-    int maxRadius = 20;
+    bool hough_active = false;
+    bool edge_active = false;
+    int canny_threshold = 100;
+    int centers_threshold = 20;
+    int min_center_distance = 5;
+    int min_radius = 2;
+    int max_radius = 20;
 
-    QColor filterColor;
+    QColor filter_color;
 
 };
 

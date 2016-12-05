@@ -14,9 +14,9 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::iniFilters(std::vector<ColorFilter> *inFilters){
+void MainWindow::initialize_filters(std::vector<ColorFilter> *inFilters){
     filters = inFilters;
-    updateFilterList();
+    update_filter_list();
 }
 
 void MainWindow::on_calibration_Button_clicked()
@@ -24,31 +24,31 @@ void MainWindow::on_calibration_Button_clicked()
     std::vector<ColorFilter> *temp = new std::vector<ColorFilter>();
     calibration = new CalibrationWindow(this,temp,"Data/defaultFilters.txt");
     calibration->setModal(true);
-    connect(calibration,SIGNAL(validate()),this,SLOT(setFilters()));
-    connect(calibration,SIGNAL(rejected()),this,SLOT(cancelFilters()));
+    connect(calibration,SIGNAL(validate()),this,SLOT(set_filters()));
+    connect(calibration,SIGNAL(rejected()),this,SLOT(cancel_filters()));
     calibration->exec();
 }
 
-void MainWindow::setFilters(){
+void MainWindow::set_filters(){
     qDebug() << "Accepted Filters";
     filters->clear();
-    for(int i =0; i < calibration->getFilters()->size(); i++){
-        filters->push_back(calibration->getFilters()->at(i));
-        qDebug() << calibration->getFilters()->at(i).get_name();
+    for(int i =0; i < calibration->get_filters()->size(); i++){
+        filters->push_back(calibration->get_filters()->at(i));
+        qDebug() << calibration->get_filters()->at(i).get_name();
     }
     calibration->onExit();
     delete calibration;
-    updateFilterList();
+    update_filter_list();
 }
 
-void MainWindow::cancelFilters(){
+void MainWindow::cancel_filters(){
     calibration->onExit();
     qDebug() << "Filters Configuration Dismissed";
     delete calibration;
 }
 
 
-void MainWindow::updateFilterList(){
+void MainWindow::update_filter_list(){
     ui->filterList->clear();
     for(int i = 0; i < filters->size(); i++){
         ui->filterList->addItem(filters->at(i).get_name());
