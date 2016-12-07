@@ -1115,7 +1115,7 @@
      <normaloff>:/calibrationWindow/Data/forward.png</normaloff>:/calibrationWindow/Data/forward.png</iconset>
    </property>
   </widget>
-  <widget class="QSlider" name="horizontalSlider">
+  <widget class="QSlider" name="buffer_slider">
    <property name="geometry">
     <rect>
      <x>10</x>

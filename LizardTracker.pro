@@ -14,13 +14,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     calibrationwindow.cpp \
     colorfilter.cpp \
-    ocvframe.cpp
+    ocvframe.cpp \
+    video.cpp
 
 HEADERS  += mainwindow.h \
     calibrationwindow.h \
     colorfilter.h \
     ocvframe.h \
-    buffer.h
+    buffer.h \
+    video.h
 
 FORMS    += mainwindow.ui \
     calibrationwindow.ui

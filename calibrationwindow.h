@@ -14,6 +14,7 @@
 #include <QGraphicsScene>
 #include "ocvframe.h"
 #include <QTimer>
+#include "buffer.h"
 
 namespace Ui {
 class CalibrationWindow;
@@ -118,6 +119,8 @@ private:
     QGraphicsScene frame;
     OcvFrame *ocvf;
     QTimer timer;
+    Buffer<
+
 };
 
 #endif // CALIBRATIONWINDOW_H
