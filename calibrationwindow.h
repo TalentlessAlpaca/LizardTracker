@@ -119,7 +119,6 @@ private:
     QGraphicsScene frame;
     OcvFrame *ocvf;
     QTimer timer;
-    Buffer<
 
 };
 
